@@ -11,8 +11,8 @@
 		<Arg>
 			<New class="com.mchange.v2.c3p0.ComboPooledDataSource">
 				<Set name="driverClass">org.postgresql.Driver</Set>
-				<Set name="jdbcUrl">jdbc:postgresql://localhost:5432/sms</Set>
-				<Set name="user">sms</Set>
+				<Set name="jdbcUrl">jdbc:postgresql://localhost:5432/school-management-database</Set>
+				<Set name="user">smsadmin</Set>
 				<Set name="password">$ch00ld@+@b@$3</Set>
 			</New>
 		</Arg>

@@ -7,7 +7,8 @@
   <name>sms</name>
   <description>School Management System</description>
   <properties>
-	<spring3.version>3.2.0.RELEASE</spring3.version>
+	<spring3.version>3.2.4.RELEASE</spring3.version>
+	<project.version>1.0.0.1-SNAPSHOT</project.version>
   </properties>
   <modules>
   	<module>sms-domain</module>

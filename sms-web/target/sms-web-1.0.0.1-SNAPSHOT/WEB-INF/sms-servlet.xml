@@ -11,7 +11,7 @@
 
 	<mvc:resources location="/assets/" mapping="/assets/**" />
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.education" />
+	<context:component-scan base-package="com.education.web" />
 	<context:property-placeholder location="classpath:sms.properties"/>
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
