@@ -1,12 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<h1>MORAFUCKERS AM WEALTHY</h1>
-</body>
-</html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="template" tagdir="/WEB-INF/tags" %>
+<%@ include file="/WEB-INF/jsp/common/taglibs.jsp" %>
+<template:base-page-layout>
+	<jsp:body>
+		<div class="row">
+		  <div class="span2"></div>
+				<div class="span7">
+				<h3>Landing Page</h3>
+				</div>
+		  <div class="span2"></div>
+		 </div>
+	</jsp:body>
+</template:base-page-layout>

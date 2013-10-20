@@ -27,25 +27,74 @@ CREATE DATABASE "school-management-database" WITH ENCODING='UTF8' OWNER="smsadmi
 \connect "school-management-database" "smsadmin";
 
 
--- Entity
-DROP SEQUENCE IF EXISTS entity_id_seq CASCADE;
-CREATE SEQUENCE entity_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS entity CASCADE;
-CREATE TABLE entity(
-	id integer primary key  default nextval('entity_id_seq'),
-	status varchar( 255 ),
+
+
+
+--Users Table
+DROP SEQUENCE IF EXISTS users_id_seq CASCADE;
+CREATE SEQUENCE users_id_seq START WITH 1000;
+
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users(
+	id integer primary key  default nextval('users_id_seq'),
+	username varchar(255) unique NOT NULL,
+	password varchar(255) NOT NULL,
+	group_name varchar(255) NOT NULL,
+	status varchar( 255 ) NOT NULL,
+	created_by varchar(255) NOT NULL,
 	created_date timestamp  NOT NULL DEFAULT CURRENT_DATE,
 	modified_date timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
 
-DROP SEQUENCE IF EXISTS entity_attributes_id_seq CASCADE;
-CREATE SEQUENCE entity_attributes_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS entity_attributes CASCADE;
-CREATE TABLE entity_attributes(
-	id integer primary key  default nextval( 'entity_attributes_id_seq' ),
-	entity_id integer references entity( id )  NOT NULL,
+
+
+
+
+
+-- System Admin Tables
+DROP SEQUENCE IF EXISTS system_admin_entity_id_seq CASCADE;
+CREATE SEQUENCE system_admin_entity_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS system_admin_entity CASCADE;
+CREATE TABLE system_admin_entity(
+	id integer primary key  default nextval('system_admin_entity_id_seq'),
+	user_id integer references users( id )  NOT NULL
+);
+
+DROP SEQUENCE IF EXISTS system_admin_entity_attributes_id_seq CASCADE;
+CREATE SEQUENCE system_admin_entity_attributes_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS system_admin_entity_attributes CASCADE;
+CREATE TABLE system_admin_entity_attributes(
+	id integer primary key  default nextval( 'system_admin_entity_attributes_id_seq' ),
+	admin_entity_id integer references system_admin_entity(id)  NOT NULL,
+	attribute varchar( 255 ) NOT NULL,
+	attribute_value text NOT NULL
+);
+
+
+
+
+
+-- Agents Table
+DROP SEQUENCE IF EXISTS agent_entity_id_seq CASCADE;
+CREATE SEQUENCE agent_entity_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS agent_entity CASCADE;
+CREATE TABLE agent_entity(
+	id integer primary key  default nextval('agent_entity_id_seq'),
+	user_id integer references users(id)  NOT NULL
+);
+
+DROP SEQUENCE IF EXISTS agent_entity_attributes_id_seq CASCADE;
+CREATE SEQUENCE agent_entity_attributes_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS agent_entity_attributes CASCADE;
+CREATE TABLE agent_entity_attributes(
+	id integer primary key  default nextval( 'agent_entity_attributes_id_seq' ),
+	agent_entity_id integer references agent_entity( id )  NOT NULL,
 	attribute varchar( 255 ) NOT NULL,
 	attribute_value text NOT NULL
 );

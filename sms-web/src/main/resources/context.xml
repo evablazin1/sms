@@ -10,6 +10,7 @@
 
 	<context:property-placeholder location="classpath:sms.properties"/>
  	<context:component-scan base-package="com.education.web" />
+ 	<context:annotation-config/>
  	<import resource="classpath*:education-repository-context.xml" />
  	
  	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
@@ -25,4 +26,24 @@
 			</bean>
 		</mvc:message-converters> 
 	</mvc:annotation-driven>
+	
+	 <!--Sending emails -->
+     <bean id="mailHelper" class="com.education.web.helper.MailHelper" >
+    	<property name="mailSender" ref="mailSender" />
+	 </bean>
+	
+     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+     	<property name="host" value="${email.host}" />
+		<property name="port" value="${email.port}" />
+        <property name="username" value="${email.username}"/>
+        <property name="password" value="${email.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+		
+	 </bean>
 </beans>

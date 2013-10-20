@@ -5,14 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.education.repository.EntityRepository;
+import com.education.repository.users.UserRepository;
 
 @Controller
 public class IndexController {
 	
 	@Autowired
-	EntityRepository entityRepository;
+	UserRepository userRepository;
 	
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
 	
@@ -24,6 +23,7 @@ public class IndexController {
 	@RequestMapping(value={"/","index"})
 	public String index(){
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> index controller");
+		
 		return "index/index"; 
 	}
 

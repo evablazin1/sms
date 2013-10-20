@@ -32,7 +32,7 @@
 		<property name="packagesToScan" value="com.education.domain" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
+				<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
 			</bean>
 		</property>
 		<property name="loadTimeWeaver">
