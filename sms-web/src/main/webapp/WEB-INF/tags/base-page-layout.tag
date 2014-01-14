@@ -9,16 +9,13 @@
 	    <meta name="description" content="">
 	    <meta name="author" content="">
 		<title>School Management System</title>
-	
-	    <!-- Bootstrap core CSS -->
-	    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/bootstrap.css"/>" />
-	    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/jquery-ui.css"/>" />
-	    <link rel="stylesheet" type="text/css" href="<c:url value="/assets/css/half-slider.css"/>" />
-	    
-	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.10.2.min.js"/>" ></script>
-	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.6.1-allscripts.js"/>" ></script>
-	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-ui.min.js"/>" ></script>
-  	</head>
+		<!-- Fragments --> 
+		<%@attribute name="css" fragment="true" %>
+		<%@attribute name="script" fragment="true" %>
+		
+		<jsp:invoke fragment="css" />
+		<jsp:invoke fragment="script" />
+	</head>
 	<body>
 		<nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
 			      <div class="container">
@@ -97,9 +94,7 @@
         </div>
       </footer>
 
-    </div><!-- /.container -->
-	<script type="text/javascript" src="<c:url value="/assets/js/yav.js"/>" ></script>
-	<script type="text/javascript" src="<c:url value="/assets/js/yav-config.js"/>" ></script>
-	<script type="text/javascript" src="<c:url value="/assets/js/bootstrap.js"/>" ></script>
+    </div>
+    <!-- /.container -->
    </body>
 </html>

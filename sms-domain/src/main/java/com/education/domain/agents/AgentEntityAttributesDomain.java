@@ -27,7 +27,7 @@ public class AgentEntityAttributesDomain implements Serializable {
 	@Column( name="attribute", nullable=false)
 	private String attribute;
 	
-	@Column( name="attribute_value", nullable=false)
+	@Column( name="attribute_value", nullable=true)
 	private String attributeValue;
 
 	public Long getId() {

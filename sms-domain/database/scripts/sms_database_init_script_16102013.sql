@@ -85,7 +85,7 @@ CREATE SEQUENCE agent_entity_id_seq START WITH 1;
 DROP TABLE IF EXISTS agent_entity CASCADE;
 CREATE TABLE agent_entity(
 	id integer primary key  default nextval('agent_entity_id_seq'),
-	user_id integer references users(id)  NOT NULL
+	user_id integer references users( id )  NOT NULL
 );
 
 DROP SEQUENCE IF EXISTS agent_entity_attributes_id_seq CASCADE;
@@ -98,3 +98,4 @@ CREATE TABLE agent_entity_attributes(
 	attribute varchar( 255 ) NOT NULL,
 	attribute_value text NOT NULL
 );
+

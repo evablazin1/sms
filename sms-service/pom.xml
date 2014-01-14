@@ -1,13 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>sms</artifactId>
-    <groupId>com.education</groupId>
-    <version>1.0.0.1-SNAPSHOT</version>
-  </parent>
-  <groupId>com.education</groupId>
-  <artifactId>sms-service</artifactId>
-  <version>1.0.0.1-SNAPSHOT</version>
-  <name>sms-service</name>
-  <description>Service Layer for School Management System</description>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>sms</artifactId>
+		<groupId>com.education</groupId>
+		<version>1.0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.education</groupId>
+	<artifactId>sms-service</artifactId>
+	<version>1.0.0.1-SNAPSHOT</version>
+	<name>sms-service</name>
+	<description>Service Layer for School Management System</description>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.RC2</version>
+		</dependency>
+
+		<!-- Common Dependencies-->
+		<dependency>
+			<groupId>com.education</groupId>
+			<artifactId>sms-repository</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 </project>

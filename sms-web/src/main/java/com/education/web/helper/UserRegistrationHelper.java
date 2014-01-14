@@ -48,15 +48,27 @@ public class UserRegistrationHelper {
 
 	private static UserRepository newUserRepository;
 	private static SystemAdminEntityRepository newSystemAdminEntityRepository;
-	
 	private static SystemAdminEntityAttributesRepository newSystemAdminEntityAttributesRepository;
 	private static AgentEntityRepository newAgentEntityRepository;
-	
 	private static AgentEntityAttributesRepository newAgentEntityAttributesRepository;
 	
 	private static final Logger logger 												= LoggerFactory.getLogger(UserRegistrationHelper.class);
 	
 	
+	/**
+	 * To initialize an instance of the autowired dependencies,because you cant autowire a static dependency
+	 */
+	@PostConstruct
+	public void initializeDependency(){
+		 
+		 newUserRepository							= this.userRepository;
+		 newSystemAdminEntityRepository				= this.systemAdminEntityRepository;
+		 
+		 newSystemAdminEntityAttributesRepository	= this.systemAdminEntityAttributesRepository;
+		 newAgentEntityRepository					= this.agentEntityRepository;
+		 
+		 newAgentEntityAttributesRepository			= this.agentEntityAttributesRepository;
+	}
 	
 	
 	
@@ -81,7 +93,10 @@ public class UserRegistrationHelper {
 		
 		try{
 				
-				//Save to users table
+				
+				/**
+				 *  Save to users table
+				 */
 				userDomain.setUsername(StringUtils.trim(username));   //check for existing username
 				userDomain.setPassword(DigestUtils.md5Hex(password));
 				
@@ -95,18 +110,21 @@ public class UserRegistrationHelper {
 				
 				userDomain															= newUserRepository.save(userDomain);
 				
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Registered user");
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered user");
 				
 				
-				//Save details to entity table
+				/**
+				 * Save details to entity table
+				 */
 				SystemAdminEntityDomain systemAdminEntityDomain		    					= new SystemAdminEntityDomain();	
 				
 				systemAdminEntityDomain.setUserID(userDomain.getId());
 				systemAdminEntityDomain														= newSystemAdminEntityRepository.save(systemAdminEntityDomain);
 				
 				
-				
-				//save to entity attributes table
+				/**
+				 * save to entity attributes table
+				 */
 				for(Request request : requests){
 				SystemAdminEntityAttributesDomain systemAdminEntityAttributesDomain 	= new SystemAdminEntityAttributesDomain();
 					
@@ -119,7 +137,7 @@ public class UserRegistrationHelper {
 				}
 				
 				newSystemAdminEntityAttributesRepository.save(systemAdminEntityAttributesDomains);
-				
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered user details");
 				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Delegating to MailHelper");
 				
 				MailHelper mailHelper														=  new MailHelper();
@@ -136,7 +154,7 @@ public class UserRegistrationHelper {
 			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ex.toString());
 			
 			response.setStatus("Not Saved");
-			response.setMessage("Due to technical diffculities,leads were not successfully saved to the Database. Please try again later.");
+			response.setMessage("Due to technical diffculities,details were not successfully saved to the Database. Please try again later.");
 		}
 		
 		return response;
@@ -233,20 +251,4 @@ public class UserRegistrationHelper {
 		
 		return response;
 	}
-	
-	
-
-	//To initialize an instance of the autowired dependencies,because you cant autowire a static dependency
-	@PostConstruct
-	public void initializeDependency(){
-		 
-		 newUserRepository							= this.userRepository;
-		 newSystemAdminEntityRepository				= this.systemAdminEntityRepository;
-		 
-		 newSystemAdminEntityAttributesRepository	= this.systemAdminEntityAttributesRepository;
-		 newAgentEntityRepository					= this.agentEntityRepository;
-		 
-		 newAgentEntityAttributesRepository			= this.agentEntityAttributesRepository;
-	}
-
 }
