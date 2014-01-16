@@ -16,37 +16,48 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.education.domain.users.UserDomain;
-import com.education.repository.agents.AgentEntityRepository;
-import com.education.repository.system.admin.SystemAdminEntityRepository;
+
+import com.education.repository.users.UserGroupRepository;
 import com.education.repository.users.UserRepository;
 
 
-@Component
+@Component("SecurityHelper")
 public class SecurityHelper {
 	
 	@Value("${security.groups}")
-	private String securityGroups;
+	private String securitygroups;
 	
 	@Autowired
-	UserRepository userRepository;
+	UserRepository userrepository;
 	
 	@Autowired
-	SystemAdminEntityRepository systemAdminEntityRepository;
+	UserGroupRepository usergrouprepository;
 
-	@Autowired
-	AgentEntityRepository agentEntityRepository;
 	
-	private static String newSecurityGroups;
-	private static UserRepository newUserRepository;
-	
-	private static SystemAdminEntityRepository newSystemAdminEntityRepository;
-	private static AgentEntityRepository newAgentEntityRepository;
+	private static String securityGroups;
+	private static UserRepository userRepository;
+	private static UserGroupRepository userGroupRepository;
 	
 	public static final String USER											= "AUTHENTICATED_USER";
-	public static final String USER_GROUP									= "AUTHENTICATED_USER_GROUP";
 	public static final String USER_NAME									= "AUTHENTICATED_USER_NAME";
+	public static final String USER_GROUP									= "AUTHENTICATED_USER_GROUP";
 	
 	private static final Logger logger 										= LoggerFactory.getLogger(SecurityHelper.class);
+	
+	
+	
+	
+	/**
+	 * To initialize an instance of the autowired dependencies,because you cant autowire a static dependency
+	 */
+	@PostConstruct
+	public void initializeDependency(){
+		
+		securityGroups														= this.securitygroups;
+		userRepository														= this.userrepository;
+		userGroupRepository													= this.usergrouprepository;
+
+	}
 	
 	
 	
@@ -61,13 +72,20 @@ public class SecurityHelper {
 		
 		if(session.getAttribute(USER)!= null){
 			
-			//Retrieve security groups and convert to list
-			String [] groups									=	StringUtils.split(newSecurityGroups, ",");
-			List<String> groupList								=	Arrays.asList(groups);
+			/**
+			 * Retrieve security groups and convert to list
+			 */
+			String [] groups												=	StringUtils.split(securityGroups, ",");
+			List<String> groupList											=	Arrays.asList(groups);
 
-			//Check if user group exists
-			if(groupList.contains((String)session.getAttribute( USER_GROUP)))
-			 return true;
+			/**
+			 * Check if user group exists
+			 */
+			List<String> groupNames										    = (List<String>) session.getAttribute(USER_GROUP);
+			for(String groupName: groupNames){
+				if(groupList.contains(groupName))
+					return true;
+			}
 		}
 		return false;
 	}
@@ -103,64 +121,43 @@ public class SecurityHelper {
 	 */
 	public static boolean authenticateUser( HttpSession session, String username,String password){
 		
-		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> About to authenticate user : " + username);
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> About to authenticate user : " + username);
 		
 		try{
 			
-			//Retrieve User from database by Username
-			UserDomain userDomain										=	newUserRepository.findByUsername(StringUtils.trim(username));
+			/**
+			 * Retrieve User from database by Username
+			 */
+			UserDomain userDomain													=	userRepository.findByUsername(StringUtils.trim(username));
 			
-			//Validate if user exists
+			/**
+			 * Validate if user exists
+			 */
 			if(userDomain!=null){
 			
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> User found : " + userDomain.getUsername());
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> User found : " + userDomain.getUsername());
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Full Name : " + userDomain.getFullName());
 				
-				//Validate Password
+				/**
+				 * Validate Password
+				 */
 				if(StringUtils.equals(DigestUtils.md5Hex(password), userDomain.getPassword())){
 					
-					logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Password authenticated ");
+					logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Password authenticated ");
 				
 					session.setAttribute(USER, userDomain);
-					session.setAttribute(USER_GROUP, userDomain.getGroupName());
+					session.setAttribute(USER_NAME, StringUtils.trim(userDomain.getFullName()));
+					session.setAttribute(USER_GROUP, userGroupRepository.retrieveUserGroup(userDomain.getId()));
 					
-					String fullName										= "";
-					
-					
-					logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> logged in user's group  " + (String)session.getAttribute(USER_GROUP));
-					
-					//Retrieve Full name based on users group
-					if(StringUtils.equals((String)session.getAttribute(USER_GROUP), "System-Admin")){
-						
-						List<String> names								=	 newSystemAdminEntityRepository.findUsersFullName(userDomain.getId());
-						
-						for(String name:names){
-							fullName									+= name + " ";
-						}
-						
-						logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Logged in user's full name :  " + fullName );
-						session.setAttribute(USER_NAME, StringUtils.trim(fullName));
+					for( String group : (List<String>) session.getAttribute(USER_GROUP)){
+						logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> logged in user's group  " + group );
 					}
 					
-					
-					if(StringUtils.equals((String)session.getAttribute(USER_GROUP), "Head-Agent")
-							||StringUtils.equals((String)session.getAttribute(USER_GROUP), "Agent")){
-						
-						List<String> names								=	 newAgentEntityRepository.findUsersFullName(userDomain.getId());
-						
-						for(String name:names){
-							fullName									+= name + " ";
-						}
-						
-						logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>> Logged in user's full name :  " + fullName );
-						session.setAttribute(USER_NAME, StringUtils.trim(fullName));
-					}
-					
-					
-					return true;
+				return true;
 				}
 			}
 		}catch(Exception ex){
-			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ex.toString());
+			logger.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + ex.toString());
 		}
 		return false;
 	}
@@ -173,23 +170,11 @@ public class SecurityHelper {
 	 * @return
 	 */
 	public static boolean isUserInGroup(HttpSession session, String groupName){
-	 if(session.getAttribute(USER_GROUP ).equals(groupName)){
-		logger.debug( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Found match, user is in group " + groupName );
-		return true;
-	  }
+		List<String> groups															= (List<String>) session.getAttribute(USER_GROUP);
+		if(groups.contains(groupName)){
+			logger.debug( ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Found match, user is in group " + groupName );
+			return true;
+		}
 		return false;
-	}
-	
-	
-	
-	//To initialize an instance of the autowired dependencies,because you cant autowire a static dependency
-	@PostConstruct
-	public void initializeDependency(){
-		
-		 newSecurityGroups							= this.securityGroups;
-		 newUserRepository							= this.userRepository;
-		
-		 newSystemAdminEntityRepository				= this.systemAdminEntityRepository;
-		 newAgentEntityRepository					= this.agentEntityRepository;
 	}
 }

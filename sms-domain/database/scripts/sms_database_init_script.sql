@@ -38,9 +38,9 @@ CREATE SEQUENCE users_id_seq START WITH 1000;
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users(
 	id 				integer primary key  default nextval('users_id_seq'),
+	fullname 		varchar(255) NOT NULL,
 	username 		varchar(255) unique NOT NULL,
 	password 		varchar(255) NOT NULL,
-	group_name 		varchar(255) NOT NULL,
 	status 			varchar( 255 ) NOT NULL,
 	created_by 		varchar(255) NOT NULL,
 	created_date 	timestamp  NOT NULL DEFAULT CURRENT_DATE,
@@ -49,11 +49,20 @@ CREATE TABLE users(
 
 
 
+--User Group Table
+DROP SEQUENCE IF EXISTS user_groups_id_seq CASCADE;
+CREATE SEQUENCE user_groups_id_seq START WITH 1000;
+
+DROP TABLE IF EXISTS user_groups CASCADE;
+CREATE TABLE user_groups(
+	id 				integer primary key  default nextval('user_groups_id_seq'),
+	user_id         integer references users(id)  NOT NULL,
+    group_name		varchar(255) NOT NULL
+);
 
 
 
-
--- System Admin Tables
+-- System Admin Entity Tables
 DROP SEQUENCE IF EXISTS system_admin_entity_id_seq CASCADE;
 CREATE SEQUENCE system_admin_entity_id_seq START WITH 1;
 
@@ -63,6 +72,8 @@ CREATE TABLE system_admin_entity(
 	user_id 		integer references users( id )  NOT NULL
 );
 
+
+-- System Admin Entity Attributes Tables
 DROP SEQUENCE IF EXISTS system_admin_entity_attributes_id_seq CASCADE;
 CREATE SEQUENCE system_admin_entity_attributes_id_seq START WITH 1;
 
@@ -76,32 +87,7 @@ CREATE TABLE system_admin_entity_attributes(
 
 
 
-
-
--- Agents Table
-DROP SEQUENCE IF EXISTS agent_entity_id_seq CASCADE;
-CREATE SEQUENCE agent_entity_id_seq START WITH 1;
-
-DROP TABLE IF EXISTS agent_entity CASCADE;
-CREATE TABLE agent_entity(
-	id 				integer primary key  default nextval('agent_entity_id_seq'),
-	user_id 		integer references users( id )  NOT NULL
-);
-
-DROP SEQUENCE IF EXISTS agent_entity_attributes_id_seq CASCADE;
-CREATE SEQUENCE agent_entity_attributes_id_seq START WITH 1;
-
-DROP TABLE IF EXISTS agent_entity_attributes CASCADE;
-CREATE TABLE agent_entity_attributes(
-	id 					integer primary key  default nextval( 'agent_entity_attributes_id_seq' ),
-	agent_entity_id 	integer references agent_entity( id )  NOT NULL,
-	attribute 			varchar(255) NOT NULL,
-	attribute_value 	text NOT NULL
-);
-
-
-
--- School Tables
+-- School Entity Tables
 DROP SEQUENCE IF EXISTS school_entity_id_seq CASCADE;
 CREATE SEQUENCE school_entity_id_seq START WITH 1;
 
@@ -116,6 +102,7 @@ CREATE TABLE school_entity(
 );
 
 
+-- School Entity Attributes Tables
 DROP SEQUENCE IF EXISTS school_entity_attributes_id_seq CASCADE;
 CREATE SEQUENCE school_entity_attributes_id_seq START WITH 1;
 

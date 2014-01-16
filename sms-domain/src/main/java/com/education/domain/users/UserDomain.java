@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema="public",name="users")
+@Table(name="users")
 public class UserDomain implements Serializable {
 
 	/**
@@ -22,19 +22,19 @@ public class UserDomain implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Long id;
 	
-	@Column( name="username", nullable=true)
+	@Column( name="fullname", nullable=false)
+	private String fullName; 
+	
+	@Column( name="username", nullable=false)
 	private String username; 
 	
-	@Column( name="password", nullable=true)
+	@Column( name="password", nullable=false)
 	private String password;
 	
-	@Column( name="group_name", nullable=true)
-	private String groupName;
-	
-	@Column( name="status", nullable=true)
+	@Column( name="status", nullable=false)
 	private String status;
 	
-	@Column( name="created_by", nullable=true)
+	@Column( name="created_by", nullable=false)
 	private String createdBy;
 	
 	@Column( name="created_date", nullable=false)
@@ -51,6 +51,14 @@ public class UserDomain implements Serializable {
 		this.id = id;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -65,14 +73,6 @@ public class UserDomain implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getGroupName() {
-		return groupName;
-	}
-
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
 	}
 
 	public String getStatus() {

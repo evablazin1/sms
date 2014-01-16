@@ -172,6 +172,7 @@
 					//Populate list of cities via DWR
 					cityService.getCitiesByProvinceCode(provinceCode,{callback:function(dataFromServer){
 						        city					 = "<select id='city' name='City' >";
+						        city    	   			+= "<option value=''>Select a city</option>";
 						        
 						  $.each(dataFromServer, function (index,value){		
 						    	city    	   		    += "<option value='"+value.cityName+"'>"+value.cityName+"</option>";
