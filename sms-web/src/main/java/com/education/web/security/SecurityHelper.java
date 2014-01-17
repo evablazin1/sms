@@ -136,7 +136,7 @@ public class SecurityHelper {
 			if(userDomain!=null){
 			
 				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> User found : " + userDomain.getUsername());
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Full Name : " + userDomain.getFullName());
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Full Name : " + userDomain.getFirstName() +" "+userDomain.getLastName());
 				
 				/**
 				 * Validate Password
@@ -146,7 +146,7 @@ public class SecurityHelper {
 					logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Password authenticated ");
 				
 					session.setAttribute(USER, userDomain);
-					session.setAttribute(USER_NAME, StringUtils.trim(userDomain.getFullName()));
+					session.setAttribute(USER_NAME, StringUtils.trim(userDomain.getFirstName()+" "+userDomain.getLastName()));
 					session.setAttribute(USER_GROUP, userGroupRepository.retrieveUserGroup(userDomain.getId()));
 					
 					for( String group : (List<String>) session.getAttribute(USER_GROUP)){

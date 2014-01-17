@@ -38,11 +38,13 @@ CREATE SEQUENCE users_id_seq START WITH 1000;
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users(
 	id 				integer primary key  default nextval('users_id_seq'),
-	fullname 		varchar(255) NOT NULL,
 	username 		varchar(255) unique NOT NULL,
 	password 		varchar(255) NOT NULL,
+	first_name      varchar( 255 ) NOT NULL,
+	last_name		varchar( 255 ) NOT NULL,
 	status 			varchar( 255 ) NOT NULL,
 	created_by 		varchar(255) NOT NULL,
+	modified_by 	varchar(255) NOT NULL,
 	created_date 	timestamp  NOT NULL DEFAULT CURRENT_DATE,
 	modified_date 	timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
@@ -63,56 +65,90 @@ CREATE TABLE user_groups(
 
 
 -- System Admin Entity Tables
-DROP SEQUENCE IF EXISTS system_admin_entity_id_seq CASCADE;
-CREATE SEQUENCE system_admin_entity_id_seq START WITH 1;
+DROP SEQUENCE IF EXISTS system_admin_id_seq CASCADE;
+CREATE SEQUENCE system_admin_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS system_admin_entity CASCADE;
-CREATE TABLE system_admin_entity(
-	id 				integer primary key  default nextval('system_admin_entity_id_seq'),
-	user_id 		integer references users( id )  NOT NULL
+DROP TABLE IF EXISTS system_admin CASCADE;
+CREATE TABLE system_admin(
+	id 						integer primary key  default nextval('system_admin_id_seq'),
+	user_id 				integer references users( id )  NOT NULL,
+	status					varchar( 255 ) NOT NULL,
+	first_name      		varchar( 255 ) NOT NULL,
+	last_name				varchar( 255 ) NOT NULL,
+	sex						varchar( 20 ) NOT NULL,
+	date_of_birth   		timestamp  NOT NULL,
+	age	    				varchar( 20 ) NOT NULL,
+	mobile_number	    	varchar( 255 ) NOT NULL,
+	email_address			varchar( 255 ) NOT NULL,
+	country_of_origin   	varchar( 255 ) NOT NULL,
+	id_number				varchar( 255 ) NOT NULL,
+	country_of_residence    varchar( 255 ) NOT NULL,
+	province 				varchar(255) NOT NULL,
+	city 					varchar(255) NOT NULL,
+    address					varchar( 255 ) NOT NULL,
+	suburb					varchar( 255 ) NOT NULL,
+	postal_code				varchar( 255 ) NOT NULL,
+	created_by 				varchar(255) NOT NULL,
+	modified_by 			varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
-
-
--- System Admin Entity Attributes Tables
-DROP SEQUENCE IF EXISTS system_admin_entity_attributes_id_seq CASCADE;
-CREATE SEQUENCE system_admin_entity_attributes_id_seq START WITH 1;
-
-DROP TABLE IF EXISTS system_admin_entity_attributes CASCADE;
-CREATE TABLE system_admin_entity_attributes(
-	id 					integer primary key  default nextval( 'system_admin_entity_attributes_id_seq' ),
-	admin_entity_id 	integer references system_admin_entity(id)  NOT NULL,
-	attribute 			varchar( 255 ) NOT NULL,
-	attribute_value 	text NOT NULL
-);
-
 
 
 -- School Entity Tables
-DROP SEQUENCE IF EXISTS school_entity_id_seq CASCADE;
-CREATE SEQUENCE school_entity_id_seq START WITH 1;
+DROP SEQUENCE IF EXISTS schools_id_seq CASCADE;
+CREATE SEQUENCE schools_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS school_entity CASCADE;
-CREATE TABLE school_entity(
-	id 					integer primary key  default nextval('school_entity_id_seq'),
-    school_name 		varchar(255) not null,
-    status 				varchar(255) not null,
-    created_by		    varchar(255) not null,
+DROP TABLE IF EXISTS schools CASCADE;
+CREATE TABLE schools(
+	id 					integer primary key  default nextval('schools_id_seq'),
+    name_of_school 		varchar(255) NOT NULL,
+    address				varchar( 255 ) NOT NULL,
+	suburb				varchar( 255 ) NOT NULL,
+	postal_code			varchar( 255 ) NOT NULL,
+    city 				varchar(255) NOT NULL,
+    province 			varchar(255) NOT NULL,
+    country 			varchar(255) NOT NULL,
+    status 				varchar(255) NOT NULL,
+    created_by		    varchar(255) NOT NULL,
+    modified_by		    varchar(255) NOT NULL,
 	created_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE,
 	modified_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
 
 
--- School Entity Attributes Tables
-DROP SEQUENCE IF EXISTS school_entity_attributes_id_seq CASCADE;
-CREATE SEQUENCE school_entity_attributes_id_seq START WITH 1;
+-- Teacher Entity Tables
+DROP SEQUENCE IF EXISTS teachers_id_seq CASCADE;
+CREATE SEQUENCE teachers_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS school_entity_attributes CASCADE;
-CREATE TABLE school_entity_attributes(
-	id 					integer primary key  default nextval('school_entity_attributes_id_seq'),
-	school_entity_id 	integer references school_entity( id )  NOT NULL,
-	attribute 			varchar(255) not null,
-	attribute_value 	varchar(255)
+DROP TABLE IF EXISTS teachers CASCADE;
+CREATE TABLE teachers(
+	id 						integer primary key  default nextval('teachers_id_seq'),
+	user_id 				integer references users( id )  NOT NULL,
+	school_id 				integer references schools( id )  NOT NULL,
+	status					varchar( 255 ) NOT NULL,
+	first_name      		varchar( 255 ) NOT NULL,
+	last_name				varchar( 255 ) NOT NULL,
+	sex						varchar( 20 ) NOT NULL,
+	date_of_birth   		timestamp  NOT NULL,
+	age	    				varchar( 20 ) NOT NULL,
+	mobile_number	    	varchar( 255 ) NOT NULL,
+	email_address			varchar( 255 ) NOT NULL,
+	country_of_origin   	varchar( 255 ) NOT NULL,
+	id_number				varchar( 255 ) NOT NULL,
+	country_of_residence    varchar( 255 ) NOT NULL,
+	province 				varchar(255) NOT NULL,
+	city 					varchar(255) NOT NULL,
+	address					varchar( 255 ) NOT NULL,
+	suburb					varchar( 255 ) NOT NULL,
+	postal_code				varchar( 255 ) NOT NULL,
+	created_by 				varchar(255) NOT NULL,
+	modified_by 			varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
+
+
 
 
 

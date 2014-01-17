@@ -22,20 +22,26 @@ public class UserDomain implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Long id;
 	
-	@Column( name="fullname", nullable=false)
-	private String fullName; 
-	
 	@Column( name="username", nullable=false)
 	private String username; 
 	
 	@Column( name="password", nullable=false)
 	private String password;
 	
+	@Column( name="first_name", nullable=false)
+	private String firstName; 
+	
+	@Column( name="last_name", nullable=false)
+	private String lastName; 
+	
 	@Column( name="status", nullable=false)
 	private String status;
 	
 	@Column( name="created_by", nullable=false)
 	private String createdBy;
+	
+	@Column( name="modified_by", nullable=false)
+	private String modifiedBy;
 	
 	@Column( name="created_date", nullable=false)
 	private Date createdDate;
@@ -49,14 +55,6 @@ public class UserDomain implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
 	}
 
 	public String getUsername() {
@@ -75,6 +73,22 @@ public class UserDomain implements Serializable {
 		this.password = password;
 	}
 
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String getStatus() {
 		return status;
 	}
@@ -89,6 +103,14 @@ public class UserDomain implements Serializable {
 
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 	public Date getCreatedDate() {

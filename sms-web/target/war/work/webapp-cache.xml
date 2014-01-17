@@ -39,10 +39,12 @@
           <string>WEB-INF/jetty-web.xml</string>
           <string>WEB-INF/jsp/common/taglibs.jsp</string>
           <string>WEB-INF/jsp/index/index.jsp</string>
-          <string>WEB-INF/jsp/school-registration/register.jsp</string>
+          <string>WEB-INF/jsp/school/list-of-schools.jsp</string>
+          <string>WEB-INF/jsp/school/register-school.jsp</string>
           <string>WEB-INF/jsp/security/login.jsp</string>
           <string>WEB-INF/jsp/security/logout.jsp</string>
-          <string>WEB-INF/jsp/system-admin-registration/register.jsp</string>
+          <string>WEB-INF/jsp/system-admin/register-system-admin.jsp</string>
+          <string>WEB-INF/jsp/teacher/register-teacher.jsp</string>
           <string>WEB-INF/sms-servlet.xml</string>
           <string>WEB-INF/tags/base-page-layout.tag</string>
           <string>WEB-INF/web.xml</string>
@@ -51,17 +53,21 @@
           <string>WEB-INF/classes/com/education/web/helper/MailHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/SchoolRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/SystemAdminRegistrationHelper.class</string>
+          <string>WEB-INF/classes/com/education/web/helper/TeacherRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/UserRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/restful/controller/SchoolRegistrationRestfulConroller.class</string>
           <string>WEB-INF/classes/com/education/web/restful/controller/SystemAdminRegistrationRestfulController.class</string>
+          <string>WEB-INF/classes/com/education/web/restful/controller/TeacherRegistrationRestfulConroller.class</string>
           <string>WEB-INF/classes/com/education/web/restful/request/model/Request.class</string>
           <string>WEB-INF/classes/com/education/web/restful/response/model/Response.class</string>
+          <string>WEB-INF/classes/com/education/web/school/SchoolController.class</string>
           <string>WEB-INF/classes/com/education/web/school/SchoolRegistrationController.class</string>
           <string>WEB-INF/classes/com/education/web/security/model/LoginModel.class</string>
           <string>WEB-INF/classes/com/education/web/security/SecurityController.class</string>
           <string>WEB-INF/classes/com/education/web/security/SecurityHelper.class</string>
           <string>WEB-INF/classes/com/education/web/security/SecurityInterceptor.class</string>
           <string>WEB-INF/classes/com/education/web/systemadmin/SystemAdminRegistrationController.class</string>
+          <string>WEB-INF/classes/com/education/web/teacher/TeacherRegistrationController.class</string>
           <string>WEB-INF/classes/context.xml</string>
           <string>WEB-INF/classes/logback.xml</string>
           <string>WEB-INF/classes/oxm-mapping.xml</string>

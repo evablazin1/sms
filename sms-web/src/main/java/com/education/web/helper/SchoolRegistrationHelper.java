@@ -1,35 +1,34 @@
 package com.education.web.helper;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.education.domain.school.SchoolEntityAttributeDomain;
-import com.education.domain.school.SchoolEntityDomain;
-import com.education.repository.school.SchoolEntityAttributesRepository;
-import com.education.repository.school.SchoolEntityRepository;
+import com.education.domain.school.SchoolDomain;
+import com.education.repository.school.SchoolRepository;
 import com.education.web.restful.request.model.Request;
 import com.education.web.restful.response.model.Response;
+import com.education.web.security.SecurityHelper;
 
 @Component("SchoolRegistrationHelper")
 public class SchoolRegistrationHelper {
 	
 	@Autowired
-	SchoolEntityRepository schoolEntityRepository;
+	SchoolRepository schoolrepository;
 	
-	@Autowired
-	SchoolEntityAttributesRepository schoolEntityAttributesRepository;
+	@Value("${inactive.status}")
+	private String inactivestatus;
 	
-	private static SchoolEntityRepository newSchoolEntityRepository;
-	private static SchoolEntityAttributesRepository newSchoolEntityAttributesRepository;
+	
+	private static String inActiveStatus;
+	private static SchoolRepository schoolRepository;
 	
 	private static final Logger logger 												= LoggerFactory.getLogger(SchoolRegistrationHelper.class);
 	
@@ -40,8 +39,8 @@ public class SchoolRegistrationHelper {
 	@PostConstruct
 	public void initializeDependency(){
 		 
-		newSchoolEntityRepository														= this.schoolEntityRepository;
-		newSchoolEntityAttributesRepository												= this.schoolEntityAttributesRepository;
+		inActiveStatus																	= this.inactivestatus;
+		schoolRepository																= this.schoolrepository;
 	}
 	
 	
@@ -52,45 +51,63 @@ public class SchoolRegistrationHelper {
 	 * @param createdBy
 	 * @return
 	 */
-	public Response saveSchoolDetails(Request[] requests,String schoolName,String createdBy){
+	public Response saveSchoolDetails(HttpSession session,Request[] requests){
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Registering school details ");
 		
 		Response response								   								= new Response();
-		SchoolEntityDomain schoolEntityDomain											= new SchoolEntityDomain();	
-		List<SchoolEntityAttributeDomain> schoolEntityAttributesDomains        			= new ArrayList<SchoolEntityAttributeDomain>();
+		SchoolDomain schoolDomain														= new SchoolDomain();	
+		String createdBy																= !StringUtils.isEmpty((String)session.getAttribute(SecurityHelper.USER_NAME))?(String)session.getAttribute(SecurityHelper.USER_NAME):"Super-Admin";
+		
 		
 		try{
 			
 			/**
-			 * Save details to school entity table
+			 * Save details to school table
 			 */
-			schoolEntityDomain.setSchoolName(schoolName);
-			schoolEntityDomain.setCreatedBy(createdBy);
 			
-			schoolEntityDomain.setStatus("Active");
-			schoolEntityDomain.setCreatedDate(new Date());
-			schoolEntityDomain.setModifiedDate(new Date());
-			
-			schoolEntityDomain															= newSchoolEntityRepository.save(schoolEntityDomain);
+			String nameOfSchool															= "";
+			String address																= "";
+			String suburb																= "";
+			String postalCode															= "";
 
-			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered school");
+			String city																	= "";
+			String province																= "";
+			String country																= "";
+			
 			
 			
 			/**
-			 * save to entity attributes table
+			 * Retrieve and set variables from the request object
 			 */
 			for(Request request : requests){
-					SchoolEntityAttributeDomain schoolEntityAttributeDomain 			= new SchoolEntityAttributeDomain();
-					
-					schoolEntityAttributeDomain.setSchoolEntityID(schoolEntityDomain.getId());
-					schoolEntityAttributeDomain.setAttribute(request.getName());
-					schoolEntityAttributeDomain.setAttributeValue(StringUtils.trim(request.getValue()));
-		
-					schoolEntityAttributesDomains.add(schoolEntityAttributeDomain);
+				nameOfSchool															= StringUtils.equals(request.getName().trim(),"Name of School")?request.getValue().trim():nameOfSchool;
+				address																	= StringUtils.equals(request.getName().trim(),"Address")?request.getValue().trim():address;
+				suburb																	= StringUtils.equals(request.getName().trim(),"Suburb")?request.getValue().trim():suburb;
+				postalCode																= StringUtils.equals(request.getName().trim(),"Postal Code")?request.getValue().trim():postalCode;
+				
+				city																	= StringUtils.equals(request.getName().trim(),"City")?request.getValue().trim():city;
+				province																= StringUtils.equals(request.getName().trim(),"Province")?request.getValue().trim():province;
+				country																	= StringUtils.equals(request.getName().trim(),"Country")?request.getValue().trim():country;
 			}
-			newSchoolEntityAttributesRepository.save(schoolEntityAttributesDomains);
 			
-			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered school details");
+			schoolDomain.setNameOfSchool(nameOfSchool);
+			schoolDomain.setAddress(address);
+			schoolDomain.setSuburb(suburb);
+			schoolDomain.setPostalCode(postalCode);
+			
+			schoolDomain.setCity(city);
+			schoolDomain.setProvince(province);
+			schoolDomain.setCountry(country);
+			schoolDomain.setStatus(inActiveStatus);
+			
+			schoolDomain.setCreatedBy(createdBy);
+			schoolDomain.setModifiedBy(createdBy);
+			schoolDomain.setCreatedDate(new Date());
+			schoolDomain.setModifiedDate(new Date());
+			
+			schoolRepository.save(schoolDomain);
+
+			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered school");
 			
 			response.setStatus("Saved");
 			response.setMessage("Details have been successfully saved to the Database.");
