@@ -19,7 +19,7 @@
 	<mvc:annotation-driven />
 	<mvc:interceptors>
 	   <bean class="com.education.web.security.SecurityInterceptor"/>
-	</mvc:interceptors> 
+	</mvc:interceptors>
  
    
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">

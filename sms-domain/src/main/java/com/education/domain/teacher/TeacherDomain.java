@@ -32,6 +32,9 @@ public class TeacherDomain implements Serializable {
 	@Column( name="status", nullable=false)
 	private String status;
 	
+	@Column( name="title", nullable=false)
+	private String title;
+	
 	@Column( name="first_name", nullable=false)
 	private String firstName; 
 	
@@ -119,6 +122,14 @@ public class TeacherDomain implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getFirstName() {

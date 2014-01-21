@@ -16,5 +16,12 @@ public class SchoolController {
 		
 		return "school/list-of-schools";
 	}
+	
+	
+	@RequestMapping(value="/register-school")
+	public String registerSchool(){
+		
+		return "school/register-school";
+	}
 
 }

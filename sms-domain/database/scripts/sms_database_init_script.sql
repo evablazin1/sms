@@ -40,6 +40,7 @@ CREATE TABLE users(
 	id 				integer primary key  default nextval('users_id_seq'),
 	username 		varchar(255) unique NOT NULL,
 	password 		varchar(255) NOT NULL,
+	title			varchar(20)  NOT NULL,
 	first_name      varchar( 255 ) NOT NULL,
 	last_name		varchar( 255 ) NOT NULL,
 	status 			varchar( 255 ) NOT NULL,
@@ -64,15 +65,16 @@ CREATE TABLE user_groups(
 
 
 
--- System Admin Entity Tables
-DROP SEQUENCE IF EXISTS system_admin_id_seq CASCADE;
-CREATE SEQUENCE system_admin_id_seq START WITH 1;
+-- Admin Tables
+DROP SEQUENCE IF EXISTS admin_id_seq CASCADE;
+CREATE SEQUENCE admin_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS system_admin CASCADE;
-CREATE TABLE system_admin(
-	id 						integer primary key  default nextval('system_admin_id_seq'),
+DROP TABLE IF EXISTS admin CASCADE;
+CREATE TABLE admin(
+	id 						integer primary key  default nextval('admin_id_seq'),
 	user_id 				integer references users( id )  NOT NULL,
 	status					varchar( 255 ) NOT NULL,
+	title					varchar(20)  NOT NULL,
 	first_name      		varchar( 255 ) NOT NULL,
 	last_name				varchar( 255 ) NOT NULL,
 	sex						varchar( 20 ) NOT NULL,
@@ -95,7 +97,7 @@ CREATE TABLE system_admin(
 );
 
 
--- School Entity Tables
+-- School Tables
 DROP SEQUENCE IF EXISTS schools_id_seq CASCADE;
 CREATE SEQUENCE schools_id_seq START WITH 1;
 
@@ -117,7 +119,7 @@ CREATE TABLE schools(
 );
 
 
--- Teacher Entity Tables
+-- Teacher Tables
 DROP SEQUENCE IF EXISTS teachers_id_seq CASCADE;
 CREATE SEQUENCE teachers_id_seq START WITH 1;
 
@@ -127,6 +129,7 @@ CREATE TABLE teachers(
 	user_id 				integer references users( id )  NOT NULL,
 	school_id 				integer references schools( id )  NOT NULL,
 	status					varchar( 255 ) NOT NULL,
+	title					varchar(20)  NOT NULL,
 	first_name      		varchar( 255 ) NOT NULL,
 	last_name				varchar( 255 ) NOT NULL,
 	sex						varchar( 20 ) NOT NULL,
@@ -149,6 +152,22 @@ CREATE TABLE teachers(
 );
 
 
+-- Class Tables
+DROP SEQUENCE IF EXISTS class_id_seq CASCADE;
+CREATE SEQUENCE class_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS class CASCADE;
+CREATE TABLE class(
+	id 					integer primary key  default nextval('class_id_seq'),
+	school_id 			integer references schools( id )  NOT NULL,
+	class_teacher_id    integer references teachers(id) NOT NULL,
+	class_name			varchar(255) NOT NULL,
+    status 				varchar(255) NOT NULL,
+    created_by		    varchar(255) NOT NULL,
+    modified_by		    varchar(255) NOT NULL,
+	created_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
 
 
 

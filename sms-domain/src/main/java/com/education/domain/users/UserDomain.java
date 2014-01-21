@@ -28,6 +28,9 @@ public class UserDomain implements Serializable {
 	@Column( name="password", nullable=false)
 	private String password;
 	
+	@Column( name="title", nullable=false)
+	private String title;
+	
 	@Column( name="first_name", nullable=false)
 	private String firstName; 
 	
@@ -71,6 +74,14 @@ public class UserDomain implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getFirstName() {

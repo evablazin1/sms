@@ -66,6 +66,7 @@ public class UserRegistrationHelper {
 		UserDomain	userDomain																= new UserDomain();
 		UserGroupDomain	userGroupDomain														= new UserGroupDomain();
 		try{
+				String title															    = "";
 				String firstName															= "";
 				String lastName																= "";
 				String userName																= "";
@@ -75,6 +76,7 @@ public class UserRegistrationHelper {
 				 * Retrieve and set variables from the request object
 				 */
 				for(Request request : requests){
+					title																    = StringUtils.equals(request.getName().trim(),"Title")?request.getValue().trim():title;
 					firstName																= StringUtils.equals(request.getName().trim(),"First Name")?request.getValue().trim():firstName;
 					lastName																= StringUtils.equals(request.getName().trim(),"Last Name")?request.getValue().trim():lastName;
 					userName																= StringUtils.equals(request.getName().trim(),"Email Address")?request.getValue().trim():userName;
@@ -84,6 +86,7 @@ public class UserRegistrationHelper {
 				/**
 				 *  Save to users table
 				 */
+				userDomain.setTitle(title);
 				userDomain.setFirstName(firstName);
 				userDomain.setLastName(lastName);
 				userDomain.setUsername(StringUtils.trim(userName));   //TODO:check for existing username

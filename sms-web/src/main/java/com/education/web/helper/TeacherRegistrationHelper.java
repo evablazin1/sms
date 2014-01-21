@@ -80,7 +80,7 @@ public class TeacherRegistrationHelper {
 				 * Save details to Teacher table
 				 */
 				
-				
+				String title															    = "";
 				String firstName															= "";
 				String lastName																= "";
 				String sex																	= "";
@@ -107,6 +107,7 @@ public class TeacherRegistrationHelper {
 				 * Retrieve and set variables from the request object
 				 */
 				for(Request request : requests){
+					title																    = StringUtils.equals(request.getName().trim(),"Title")?request.getValue().trim():title;
 					firstName																= StringUtils.equals(request.getName().trim(),"First Name")?request.getValue().trim():firstName;
 					lastName																= StringUtils.equals(request.getName().trim(),"Last Name")?request.getValue().trim():lastName;
 					sex																		= StringUtils.equals(request.getName().trim(),"Sex")?request.getValue().trim():sex;
@@ -131,6 +132,7 @@ public class TeacherRegistrationHelper {
 				teacherDomain.setUserID(userDomain.getId());
 				teacherDomain.setSchoolID(Long.valueOf(schoolID));
 				teacherDomain.setStatus(inactiveStatus);
+				teacherDomain.setTitle(title);
 				teacherDomain.setFirstName(firstName);
 				teacherDomain.setLastName(lastName);
 				

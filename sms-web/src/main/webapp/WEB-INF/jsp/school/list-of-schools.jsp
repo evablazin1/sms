@@ -58,7 +58,7 @@
 
 						<table id="schoolTable" class="table table-striped table-hover" style="display:none">
 						<thead>
-						<th>No.</th><th>Name of School</th><th>Address</th><th>Action</th>
+						<th>No.</th><th>Name of School</th><th>Address</th><th>Actions</th>
 						</thead>
 						<tbody id="schoolTableBody">
 						
@@ -157,9 +157,12 @@
 					schoolService.retrieveSchoolsByLocation(country,province,city,{callback:function(dataFromServer){
 						  var   listOfSchools						= "<tr>";								
 						 $.each(dataFromServer, function (index,value){	
-					     var url								    = "<c:url value='/teacher/register-teacher?schoolID="+value.id+"'/>"; 
+					     var teacherUrl						        = "<c:url value='/teacher/list-of-teachers?schoolID="+value.id+"'/>"; 
+					     var classUrl						        = "<c:url value='/class/list-of-classes?schoolID="+value.id+"'/>"; 
+					     
 						     listOfSchools						   += "<td>"+ ++index +"</td><td>"+value.nameOfSchool+"</td><td>"+value.address+"</td>";
-						     listOfSchools						   += "<td><a href='"+url+"'><button class='btn btn-success'><Strong>Register Teachers</Strong></button></a></td>";			
+						     listOfSchools						   += "<td><a href='"+teacherUrl+"'><button class='btn btn-success'><Strong>Teachers</Strong></button></a>";		
+						     listOfSchools						   += "<a href='"+classUrl+"'><button class='btn btn-success'><Strong>Classes</Strong></button></a></td>";	
 						     index++;
 						 });
 						 	 listOfSchools						   += "</tr>";

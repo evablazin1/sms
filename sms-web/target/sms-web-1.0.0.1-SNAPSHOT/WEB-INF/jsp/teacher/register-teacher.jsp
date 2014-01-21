@@ -48,6 +48,21 @@
 							</tr>
 							
 							<tr>
+							    <td><label class="control-label" for="title"><Strong class="text-error span3">Title :</Strong></label></td>
+								<td>
+									<div class="controls">
+										<select id="title" name="Title">
+											<option value="">Select Title</option>
+											<c:forEach items="${titles}" var="title" >
+											  <option value="${title}">${title}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<span class="innerError" id="errorsDiv_title" style="color:red;"></span>
+								</td>
+							</tr>
+							
+							<tr>
 							    <td><label class="control-label" for="firstName"><Strong class="text-error span3">First Name :</Strong></label></td>
 								<td>
 									<div class="controls"><input type="text" id="firstName" name="First Name" placeholder="Enter your first name" /></div>
@@ -350,6 +365,7 @@
 		        validationRules[15]  		= "emailAddress|required|Please enter an email address";
 		        validationRules[16]  		= "emailAddress|email|Please enter a valid email address";
 		        validationRules[17] 		= "countryOfResidence|required|Please select your country of residence";
+		        validationRules[18] 		= "title|required|Please select a title";
 		        
 		        return yav.performCheck(formID,validationRules,'inline');
 		  }
