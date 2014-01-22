@@ -30,7 +30,7 @@
 		  <div class="span4"></div>
 				<div class="span7">
 				<h3>User Registration</h3>
-					<form class="form-horizontal" id="teacherRegistrationForm" >
+					<form class="form-horizontal" id="adminRegistrationForm" >
 						<table class="table table-striped table-hover" >
 							<tr>
 							    <td><label class="control-label" for="role"><Strong class="text-error span3">Group :</Strong></label></td>
@@ -206,7 +206,7 @@
 						</div>
 					</form>
 					<div class="btn-group pull-right">
-							<button id="register" class="btn btn-success" onClick="javascript:registerAgent('teacherRegistrationForm');" >
+							<button id="register" class="btn btn-success" onClick="javascript:registerAdmin('adminRegistrationForm');" >
 								<Strong> Register <i class="icon-hand-right icon-white"></i> </Strong>
 							</button>
 					</div>
@@ -297,7 +297,7 @@
 		  
 		  
 		  
-		  function registerAgent(formID){
+		  function registerAdmin(formID){
 			 $(".error").text("");
 			   if(validateForm(formID)){
 				   

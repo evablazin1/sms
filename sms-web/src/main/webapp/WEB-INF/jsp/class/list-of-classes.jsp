@@ -19,12 +19,11 @@
 		
 		<!-- Attribute Services -->
 		<script type="text/javascript" src="<c:url value="/dwr/interface/classService.js"/>"></script>
-		<script type="text/javascript" src="<c:url value="/dwr/interface/teacherService.js"/>"></script>
 	</jsp:attribute>
 	<jsp:body>
 		  <div class="span4"></div>
 				<div class="span7">
-				<h3>List of Teachers</h3>
+				<h3>List of classes</h3>
 						<table id="classTable" class="table table-striped table-hover" style="display:none;">
 							<thead>
 								<th>No.</th><th>Name of class</th><th>Class Teacher</th><th>Actions</th>
@@ -50,14 +49,11 @@
 			  
 			  classService.retrieveListOfClasses(schoolID,{callback:function(dataFromServer){
 				 if (!$.isEmptyObject(dataFromServer)){
-					 var classTeacher							= "";
 					var listOfClasses              			    = "<tr>";
 					  $.each(dataFromServer,function(index,value){
-						  teacherService.getTeacher(value.id,{callback:function(dataFromServer){
-						        classTeacher					= dataFromServer.title+" "+dataFromServer.firstName+" "+dataFromServer.lastName;
-						  }});
-						  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td><td>"+classTeacher+"</td>"; 	      
-						  listOfClasses						   += "<td><a href=''><button class='btn btn-success'><Strong>Teacher</Strong></button></a></td>";   
+					  var subjectUrl						    = "<c:url value='/subject/list-of-subjects?schoolID="+schoolID+"&classID="+value.id+"'/>";
+						  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td><td>"+value.classTeacherName+"</td>"; 	      
+						  listOfClasses						   += "<td><a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";   
 					  });
 					      listOfClasses              		   += "</tr>";
 					  

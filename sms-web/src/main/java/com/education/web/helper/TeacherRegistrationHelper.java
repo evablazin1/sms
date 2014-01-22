@@ -20,7 +20,7 @@ import com.education.web.restful.request.model.Request;
 import com.education.web.restful.response.model.Response;
 import com.education.web.security.SecurityHelper;
 
-@Component("TeacherRegistrationHelper")
+@Component("teacherRegistrationHelper")
 public class TeacherRegistrationHelper {
 
 	@Autowired

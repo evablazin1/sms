@@ -25,8 +25,11 @@ public class ClassDomain implements Serializable{
 	@Column( name="school_id", nullable=false)
 	private Long schoolID; 
 	
-	@Column( name="class_teacher_id", nullable=false)
+	@Column( name="class_teacher_id", nullable=true)
 	private Long classTeacherID;
+	
+	@Column( name="class_teacher_name", nullable=false)
+	private String classTeacherName;
 	
 	@Column( name="class_name", nullable=false)
 	private String className;
@@ -68,6 +71,14 @@ public class ClassDomain implements Serializable{
 
 	public void setClassTeacherID(Long classTeacherID) {
 		this.classTeacherID = classTeacherID;
+	}
+
+	public String getClassTeacherName() {
+		return classTeacherName;
+	}
+
+	public void setClassTeacherName(String classTeacherName) {
+		this.classTeacherName = classTeacherName;
 	}
 
 	public String getClassName() {

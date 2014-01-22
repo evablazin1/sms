@@ -21,7 +21,7 @@ import com.education.web.restful.request.model.Request;
 import com.education.web.restful.response.model.Response;
 import com.education.web.security.SecurityHelper;
 
-@Component("AdminRegistrationHelper")
+@Component("adminRegistrationHelper")
 public class AdminRegistrationHelper {
 
 	@Autowired
@@ -78,7 +78,7 @@ public class AdminRegistrationHelper {
 				UserDomain userDomain 														= userRegistrationHelper.saveUserDetails(session,requests,password,createdBy);
 				
 				/**
-				 * Save details to system admin table
+				 * Save details to admin table
 				 */
 				String title															    = "";
 				String firstName															= "";

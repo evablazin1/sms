@@ -55,7 +55,7 @@
 						  listOfTeacher    					   += "<td>"+ ++index +"</td><td>"+value.title+" "+value.firstName+" "+value.lastName+"</td>"; 	      
 						  listOfTeacher						   += "<td><a href=''><button class='btn btn-success'><Strong>Teacher</Strong></button></a></td>";   
 					  });
-					  	  listOfTeacher              			=   "</tr>";
+					  	  listOfTeacher              		   += "</tr>";
 					  
 					  $("#teacherTableBody").append(listOfTeacher);
 					  $("#teacherTable").show();

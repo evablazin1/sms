@@ -207,7 +207,7 @@
 						</div>
 					</form>
 					<div class="btn-group pull-right">
-							<button id="register" class="btn btn-success" onClick="javascript:registerAgent('teacherRegistrationForm');" >
+							<button id="register" class="btn btn-success" onClick="javascript:registerTeacher('teacherRegistrationForm');" >
 								<Strong> Register <i class="icon-hand-right icon-white"></i> </Strong>
 							</button>
 					</div>
@@ -298,7 +298,7 @@
 		  
 		  
 		  
-		  function registerAgent(formID){
+		  function registerTeacher(formID){
 			 $(".error").text("");
 			   if(validateForm(formID)){
 				   

@@ -19,7 +19,7 @@ import com.education.repository.users.UserGroupRepository;
 import com.education.repository.users.UserRepository;
 import com.education.web.restful.request.model.Request;
 
-@Component("UserRegistrationHelper")
+@Component("userRegistrationHelper")
 public class UserRegistrationHelper {
 	
 	@Autowired
