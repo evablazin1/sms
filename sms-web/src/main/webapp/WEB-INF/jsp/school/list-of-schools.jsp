@@ -57,16 +57,23 @@
 						</table>
 
 						<table id="schoolTable" class="table table-striped table-hover" style="display:none">
-						<thead>
-						<th>No.</th><th>Name of School</th><th>Address</th><th>Actions</th>
-						</thead>
-						<tbody id="schoolTableBody">
-						
-						</tbody>
-					
+							<thead>
+								<th>No.</th><th>Name of School</th><th>Address</th><th>Actions</th>
+							</thead>
+							<tbody id="schoolTableBody">
+							<!-- Dynamically populate List of schools -->
+							</tbody>
 						</table>
-					
-					<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
+						<div id="emptyDiv" style="display:none">There are no schools registered yet.Please register a school below</div>
+						<hr>
+						<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
+						<div class="btn-group pull-right">
+							<a href="<c:url value='/school/register-school'/>">
+								<button id="register" class="btn btn-success" >
+									<Strong> Register School <i class="icon-hand-right icon-white"></i> </Strong>
+								</button>
+							</a>
+						</div>
 				</div>
 		  <div class="span4"></div>
 		  <script type="text/javascript">
@@ -78,9 +85,11 @@
 				countryService.getAllCoutries({callback:function(dataFromServer){
 						var  listOfCountries    			 =	"<select id='country' name='Country' >";
 							 listOfCountries    			 += "<option value=''>Select a country</option>";
+							 
 					$.each(dataFromServer, function (index,value){		
 						     listOfCountries    			+= "<option value='"+value.countryName+"' code='"+value.countryCode+"'>"+value.countryName+"</option>";
 					});
+					
 							 listOfCountries    			 +=	"</select>";
 					$("#countryInput").append(listOfCountries);
 				}});
@@ -147,83 +156,41 @@
 		    
 		    $("#city").live("change", function() {
 		    	if($(this).is('select')){
-
-		    		var country										=	$("#country").val();
-		    		var province									=	$("#province").val();
-		    		var city										=	$("#city").val();
+		    		$("#schoolTableBody").empty();
+		    		
+		    			var country											=	$("#country").val();
+		    			var province										=	$("#province").val();
+		    			var city											=	$("#city").val();
 		    		
 		    		
 				   //Populate list of schools via DWR
 					schoolService.retrieveSchoolsByLocation(country,province,city,{callback:function(dataFromServer){
-						  var   listOfSchools						= "<tr>";								
+					  if (!$.isEmptyObject(dataFromServer)){	
+						 	 var   listOfSchools							= "";
 						 $.each(dataFromServer, function (index,value){	
-					     var teacherUrl						        = "<c:url value='/teacher/list-of-teachers?schoolID="+value.id+"'/>"; 
-					     var classUrl						        = "<c:url value='/class/list-of-classes?schoolID="+value.id+"'/>"; 
-					     
-						     listOfSchools						   += "<td>"+ ++index +"</td><td>"+value.nameOfSchool+"</td><td>"+value.address+"</td>";
-						     listOfSchools						   += "<td><a href='"+teacherUrl+"'><button class='btn btn-success'><Strong>Teachers</Strong></button></a>";		
-						     listOfSchools						   += "<a href='"+classUrl+"'><button class='btn btn-success'><Strong>Classes</Strong></button></a></td>";	
-						     index++;
+						     var   teacherUrl						        =  "<c:url value='/teacher/list-of-teachers?schoolID="+value.id+"'/>"; 
+						     var   classUrl						        	=  "<c:url value='/class/list-of-classes?schoolID="+value.id+"'/>"; 
+						     var   subjectUrl						        =  "<c:url value='/subject/list-of-subjects?schoolID="+value.id+"'/>";
+						     
+						     	   listOfSchools							+=  "<tr>";
+							       listOfSchools						   	+= "<td>"+ ++index +"</td><td>"+value.nameOfSchool+"</td><td>"+value.address+"</td>";
+							       listOfSchools						   	+= "<td><a href='"+teacherUrl+"'><button class='btn btn-success'><Strong>Teachers</Strong></button></a>";		
+							       listOfSchools						   	+= "<a href='"+classUrl+"'><button class='btn btn-success'><Strong>Classes</Strong></button></a>";
+							       listOfSchools						   	+= "<a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";
+							       listOfSchools						   	+= "</tr>";
 						 });
-						 	 listOfSchools						   += "</tr>";
-						
+						 
 						 $("#schoolTableBody").append(listOfSchools);
 						 $("#schoolTable").show();
+						 $("#emptyDiv").hide();
+					  }else{
+						  $("#schoolTable").hide();
+						  $("#emptyDiv").show();
+					  }
 					}});//end DWR call
 				}//end if statement
 		    });
-		    
-		    
-
-			  //Submit Form
-			  function registerSchool(formID){
-				 $(".error").text("");
-				   if(validateForm(formID)){
-					   var schoolName		= $("#schoolName").val();
-					   
-					   //AJAX post
-					   var formData  		= JSON.stringify($("#"+formID).serializeArray());
-					   console.log(formData);
-							$.ajax ({
-			    				url			: "/sms/restful/register-school?schoolName="+schoolName,
-			    				type		: "POST",
-			    				data		: formData,
-			    				dataType	: "json",
-			   		 			contentType	: "application/json; charset=utf-8",
-			    				success		: function(dataFromServer){
-									if(dataFromServer.status=="Saved"){
-									   alert("saved");
-									}
-									if(dataFromServer.status=="Not Saved"){
-										alert("not saved");
-									}
-			        			   
-			    				}
-			   		 		});
-					   return true;
-				   }else{
-					   return false;
-				   }
-			  }
-			  
-			  
-			  //Form Validation
-			  function validateForm(formID){
-				   //validation rules
-			        var validationRules 		= new Array();
-
-			        validationRules[0] 			= "country|required|Please select a country"; 
-			        validationRules[1] 			= "city|required|Please enter a city";
-			        validationRules[2] 			= "province|required|Please select a province"; 
-			        validationRules[3] 			= "address|required|Please enter an address";
-			        validationRules[4] 			= "suburb|required|Please enter a suburb";
-			        validationRules[5] 			= "postalCode|required|Please enter a postal code";
-			        validationRules[6] 			= "schoolName|required|Please enter the name of school";
-			        
-				return yav.performCheck(formID,validationRules,'inline');
-			  }
-			  
-			  
+		    			    			  
 			  //Ajax Loader
 			  $( document ).ajaxStart(function() {
 				  $( "#loading" ).show();

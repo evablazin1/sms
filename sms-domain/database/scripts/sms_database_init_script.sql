@@ -31,13 +31,13 @@ CREATE DATABASE "school-management-database" WITH ENCODING='UTF8' OWNER="smsadmi
 
 
 
---Users Table
-DROP SEQUENCE IF EXISTS users_id_seq CASCADE;
-CREATE SEQUENCE users_id_seq START WITH 1000;
+--User Table
+DROP SEQUENCE IF EXISTS user_id_seq CASCADE;
+CREATE SEQUENCE user_id_seq START WITH 1000;
 
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users(
-	id 				integer primary key  default nextval('users_id_seq'),
+	id 				integer primary key  default nextval('user_id_seq'),
 	username 		varchar(255) unique NOT NULL,
 	password 		varchar(255) NOT NULL,
 	title			varchar(20)  NOT NULL,
@@ -53,12 +53,12 @@ CREATE TABLE users(
 
 
 --User Group Table
-DROP SEQUENCE IF EXISTS user_groups_id_seq CASCADE;
-CREATE SEQUENCE user_groups_id_seq START WITH 1000;
+DROP SEQUENCE IF EXISTS user_group_id_seq CASCADE;
+CREATE SEQUENCE user_group_id_seq START WITH 1000;
 
-DROP TABLE IF EXISTS user_groups CASCADE;
-CREATE TABLE user_groups(
-	id 				integer primary key  default nextval('user_groups_id_seq'),
+DROP TABLE IF EXISTS user_group CASCADE;
+CREATE TABLE user_group(
+	id 				integer primary key  default nextval('user_group_id_seq'),
 	user_id         integer references users(id)  NOT NULL,
     group_name		varchar(255) NOT NULL
 );
@@ -98,12 +98,12 @@ CREATE TABLE admin(
 
 
 -- School Tables
-DROP SEQUENCE IF EXISTS schools_id_seq CASCADE;
-CREATE SEQUENCE schools_id_seq START WITH 1;
+DROP SEQUENCE IF EXISTS school_id_seq CASCADE;
+CREATE SEQUENCE school_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS schools CASCADE;
-CREATE TABLE schools(
-	id 					integer primary key  default nextval('schools_id_seq'),
+DROP TABLE IF EXISTS school CASCADE;
+CREATE TABLE school(
+	id 					integer primary key  default nextval('school_id_seq'),
     name_of_school 		varchar(255) NOT NULL,
     address				varchar( 255 ) NOT NULL,
 	suburb				varchar( 255 ) NOT NULL,
@@ -120,14 +120,14 @@ CREATE TABLE schools(
 
 
 -- Teacher Tables
-DROP SEQUENCE IF EXISTS teachers_id_seq CASCADE;
-CREATE SEQUENCE teachers_id_seq START WITH 1;
+DROP SEQUENCE IF EXISTS teacher_id_seq CASCADE;
+CREATE SEQUENCE teacher_id_seq START WITH 1;
 
-DROP TABLE IF EXISTS teachers CASCADE;
-CREATE TABLE teachers(
-	id 						integer primary key  default nextval('teachers_id_seq'),
+DROP TABLE IF EXISTS teacher CASCADE;
+CREATE TABLE teacher(
+	id 						integer primary key  default nextval('teacher_id_seq'),
 	user_id 				integer references users( id )  NOT NULL,
-	school_id 				integer references schools( id )  NOT NULL,
+	school_id 				integer references school( id )  NOT NULL,
 	status					varchar( 255 ) NOT NULL,
 	title					varchar(20)  NOT NULL,
 	first_name      		varchar( 255 ) NOT NULL,
@@ -159,11 +159,29 @@ CREATE SEQUENCE class_id_seq START WITH 1;
 DROP TABLE IF EXISTS class CASCADE;
 CREATE TABLE class(
 	id 					integer primary key  default nextval('class_id_seq'),
-	school_id 			integer references schools( id )  NOT NULL,
-	class_teacher_id    integer references teachers(id),
-	class_teacher_name	varchar(255),
+	school_id 			integer references school( id )  NOT NULL,
 	class_name			varchar(255) NOT NULL,
     status 				varchar(255) NOT NULL,
+    created_by		    varchar(255) NOT NULL,
+    modified_by		    varchar(255) NOT NULL,
+	created_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
+
+
+-- ClassTeacher Tables
+DROP SEQUENCE IF EXISTS class_teacher_id_seq CASCADE;
+CREATE SEQUENCE class_teacher_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS class_teacher CASCADE;
+CREATE TABLE class_teacher(
+	id 					integer primary key  default nextval('class_teacher_id_seq'),
+	school_id 			integer references school( id )  NOT NULL,
+	class_id    		integer references class(id) NOT NULL,
+	class_teacher_id    integer references teacher(id) NOT NULL,
+	class_name			varchar(255) NOT NULL,
+	class_teacher_name	varchar(255) NOT NULL,
+	status 				varchar(255) NOT NULL,
     created_by		    varchar(255) NOT NULL,
     modified_by		    varchar(255) NOT NULL,
 	created_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE,
@@ -177,11 +195,7 @@ CREATE SEQUENCE subject_id_seq START WITH 1;
 DROP TABLE IF EXISTS subject CASCADE;
 CREATE TABLE subject (
 	id 						integer primary key  default nextval('subject_id_seq'),
-	school_id 				integer references schools( id )  NOT NULL,
-	subject_teacher_id    	integer references teachers(id) NOT NULL,
-	class_id    			integer references class(id) NOT NULL,
-	subject_teacher_name	varchar(255) NOT NULL,
-	class_name				varchar(255) NOT NULL,
+	school_id 				integer references school(id)  NOT NULL,
 	subject_name			varchar(255) NOT NULL,
     status 					varchar(255) NOT NULL,
     created_by		    	varchar(255) NOT NULL,
@@ -191,6 +205,26 @@ CREATE TABLE subject (
 );
 
 
+-- SubjectTeacher Tables
+DROP SEQUENCE IF EXISTS subject_teacher_id_seq CASCADE;
+CREATE SEQUENCE subject_teacher_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS subject_teacher CASCADE;
+CREATE TABLE subject_teacher (
+	id 						integer primary key  default nextval('subject_teacher_id_seq'),
+	school_id 				integer references school(id)  NOT NULL,
+	class_id    			integer references class(id) NOT NULL,
+	subject_teacher_id    	integer references teacher(id) NOT NULL,
+	subject_id    			integer references subject(id) NOT NULL,
+	subject_teacher_name	varchar(255) NOT NULL,
+	class_name				varchar(255) NOT NULL,
+	subject_name			varchar(255) NOT NULL,
+    status 					varchar(255) NOT NULL,
+    created_by		    	varchar(255) NOT NULL,
+    modified_by		    	varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
 
 
 

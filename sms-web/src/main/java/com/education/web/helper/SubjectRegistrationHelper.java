@@ -20,13 +20,22 @@ import com.education.web.security.SecurityHelper;
 @Component("subjectRegistrationHelper")
 public class SubjectRegistrationHelper {
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	SubjectRepository subjectrepository;
+
 	
+	/**
+	 * 
+	 */
 	@Value("${inactive.status}")
 	private String inactivestatus;
 	
-	
+	/**
+	 * 
+	 */
 	private static String inActiveStatus;
 	private static SubjectRepository subjectRepository;
 	
@@ -42,6 +51,13 @@ public class SubjectRegistrationHelper {
 		subjectRepository																= this.subjectrepository;
 	}
 	
+	
+	/**
+	 * 
+	 * @param session
+	 * @param requests
+	 * @return
+	 */
 	public Response saveSubjectDetails(HttpSession session,Request[] requests){
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Registering class details ");
 		
@@ -53,14 +69,10 @@ public class SubjectRegistrationHelper {
 		try{
 			
 			/**
-			 * Save details to school table
+			 * Save details to subject table
 			 */
 			
 			String subjectName															= "";
-			String className															= "";
-			String classID																= "";
-			String subjectTeacherID														= "";
-			String subjectTeacherName													= "";
 			String schoolID																= "";
 			
 			
@@ -71,19 +83,10 @@ public class SubjectRegistrationHelper {
 			for(Request request : requests){
 				
 				subjectName																= StringUtils.equals(request.getName().trim(),"Subject Name")?request.getValue().trim():subjectName;
-				className																= StringUtils.equals(request.getName().trim(),"Class Name")?request.getValue().trim():className;
-				classID																	= StringUtils.equals(request.getName().trim(),"Class ID")?request.getValue().trim():classID;
-				subjectTeacherID														= StringUtils.equals(request.getName().trim(),"Subject Teacher")?request.getValue().trim():subjectTeacherID;
-				subjectTeacherName														= StringUtils.equals(request.getName().trim(),"Subject Teacher Name")?request.getValue().trim():subjectTeacherName;
 				schoolID																= StringUtils.equals(request.getName().trim(),"School ID")?request.getValue().trim():schoolID;
 			}
 			
 			subjectDomain.setSubjectName(subjectName);
-			subjectDomain.setClassID(Long.valueOf(classID));
-			subjectDomain.setClassName(className);
-			
-			subjectDomain.setSubjectTeacherID(Long.valueOf(subjectTeacherID));
-			subjectDomain.setSubjectTeacherName(subjectTeacherName);
 			subjectDomain.setSchoolID(Long.valueOf(schoolID));
 			subjectDomain.setStatus(inActiveStatus);
 			
@@ -93,8 +96,9 @@ public class SubjectRegistrationHelper {
 			subjectDomain.setModifiedDate(new Date());
 			
 			subjectRepository.save(subjectDomain);
+			
 
-			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered class");
+			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered subject");
 			
 			response.setStatus("Saved");
 			response.setMessage("Details have been successfully saved to the Database.");

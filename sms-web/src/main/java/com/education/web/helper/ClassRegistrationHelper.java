@@ -21,15 +21,25 @@ import com.education.web.security.SecurityHelper;
 @Component("classRegistrationHelper")
 public class ClassRegistrationHelper {
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	ClassRepository classrepository;
+
 	
+	/**
+	 * 
+	 */
 	@Value("${inactive.status}")
 	private String inactivestatus;
 	
-	
+	/**
+	 * 
+	 */
 	private static String inActiveStatus;
 	private static ClassRepository classRepository;
+
 	
 	private static final Logger logger 													= LoggerFactory.getLogger(ClassRegistrationHelper.class);
 	
@@ -43,6 +53,16 @@ public class ClassRegistrationHelper {
 		classRepository																	= this.classrepository;
 	}
 	
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param session
+	 * @param requests
+	 * @return
+	 */
 	public Response saveClassDetails(HttpSession session,Request[] requests){
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Registering class details ");
 		
@@ -58,8 +78,6 @@ public class ClassRegistrationHelper {
 			 */
 			
 			String className															= "";
-			String classTeacherID														= "";
-			String classTeacherName														= "";
 			String schoolID																= "";
 			
 			
@@ -69,14 +87,10 @@ public class ClassRegistrationHelper {
 			 */
 			for(Request request : requests){
 				className																= StringUtils.equals(request.getName().trim(),"Class Name")?request.getValue().trim():className;
-				classTeacherID															= StringUtils.equals(request.getName().trim(),"Class Teacher")?request.getValue().trim():classTeacherID;
-				classTeacherName														= StringUtils.equals(request.getName().trim(),"Class Teacher Name")?request.getValue().trim():classTeacherName;
 				schoolID																= StringUtils.equals(request.getName().trim(),"School ID")?request.getValue().trim():schoolID;
 			}
 			
 			classDomain.setClassName(className);
-			classDomain.setClassTeacherID(Long.valueOf(classTeacherID));
-			classDomain.setClassTeacherName(classTeacherName);
 			classDomain.setSchoolID(Long.valueOf(schoolID));
 			classDomain.setStatus(inActiveStatus);
 			
@@ -85,7 +99,11 @@ public class ClassRegistrationHelper {
 			classDomain.setCreatedDate(new Date());
 			classDomain.setModifiedDate(new Date());
 			
-			classRepository.save(classDomain);
+			classDomain																	= classRepository.save(classDomain);
+			
+			/**
+			 * Save details to class teacher table
+			 */
 
 			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered class");
 			

@@ -26,12 +26,12 @@
 				<h3>List of classes</h3>
 						<table id="classTable" class="table table-striped table-hover" style="display:none;">
 							<thead>
-								<th>No.</th><th>Name of class</th><th>Class Teacher</th><th>Actions</th>
+								<th>No.</th><th>Name of class</th><th>Actions</th>
 							</thead>
 							<tbody id="classTableBody">
 							</tbody>
 						</table>
-					 <div id="emptyDiv" style="display:none">There are no classes registered yet.Please register class(es) for this school below</div>
+					 <div id="emptyDiv" style="display:none">There are no classes registered yet.Please register a class for this school below</div>
 					<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
 				<div class="btn-group pull-right">
 						<a href="<c:url value='/class/register-class?schoolID=${schoolID}'/>">
@@ -49,13 +49,19 @@
 			  
 			  classService.retrieveListOfClasses(schoolID,{callback:function(dataFromServer){
 				 if (!$.isEmptyObject(dataFromServer)){
-					var listOfClasses              			    = "<tr>";
+					var listOfClasses              			    = "";
 					  $.each(dataFromServer,function(index,value){
-					  var subjectUrl						    = "<c:url value='/subject/list-of-subjects?schoolID="+schoolID+"&classID="+value.id+"'/>";
-						  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td><td>"+value.classTeacherName+"</td>"; 	      
-						  listOfClasses						   += "<td><a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";   
+					  var studentUrl						    = "<c:url value='/student/list-of-students?schoolID="+schoolID+"&classID="+value.classID+"'/>";
+					  var subjectUrl						    = "<c:url value='/subject/list-of-subjects?schoolID="+schoolID+"&classID="+value.classID+"'/>";
+					  
+					     
+					      listOfClasses              		   += "<tr>";
+					   	  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td>"; 	      
+						  listOfClasses						   += "<td><a href='"+studentUrl+"'><button class='btn btn-success'><Strong>Students</Strong></button></a>";
+						  listOfClasses						   += "<a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";
+						  listOfClasses              		   += "</tr>";
 					  });
-					      listOfClasses              		   += "</tr>";
+					      
 					  
 					  $("#classTableBody").append(listOfClasses);
 					  $("#classTable").show();

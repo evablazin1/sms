@@ -26,18 +26,6 @@ public class SubjectDomain implements Serializable {
 	@Column( name="school_id", nullable=false)
 	private Long schoolID; 
 	
-	@Column( name="subject_teacher_id", nullable=false)
-	private Long subjectTeacherID;
-	
-	@Column( name="class_id", nullable=false)
-	private Long classID;
-	
-	@Column( name="subject_teacher_name", nullable=false)
-	private String subjectTeacherName;
-	
-	@Column( name="class_name", nullable=false)
-	private String className;
-	
 	@Column( name="subject_name", nullable=false)
 	private String subjectName;
 
@@ -70,38 +58,6 @@ public class SubjectDomain implements Serializable {
 
 	public void setSchoolID(Long schoolID) {
 		this.schoolID = schoolID;
-	}
-
-	public Long getSubjectTeacherID() {
-		return subjectTeacherID;
-	}
-
-	public void setSubjectTeacherID(Long subjectTeacherID) {
-		this.subjectTeacherID = subjectTeacherID;
-	}
-
-	public Long getClassID() {
-		return classID;
-	}
-
-	public void setClassID(Long classID) {
-		this.classID = classID;
-	}
-
-	public String getSubjectTeacherName() {
-		return subjectTeacherName;
-	}
-
-	public void setSubjectTeacherName(String subjectTeacherName) {
-		this.subjectTeacherName = subjectTeacherName;
-	}
-
-	public String getClassName() {
-		return className;
-	}
-
-	public void setClassName(String className) {
-		this.className = className;
 	}
 
 	public String getSubjectName() {

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.education.web.helper.AdminRegistrationHelper;
 import com.education.web.helper.ClassRegistrationHelper;
+import com.education.web.helper.ClassTeacherRegistrationHelper;
 import com.education.web.helper.SchoolRegistrationHelper;
 import com.education.web.helper.SubjectRegistrationHelper;
+import com.education.web.helper.SubjectTeacherRegistrationHelper;
 import com.education.web.helper.TeacherRegistrationHelper;
 import com.education.web.restful.request.model.Request;
 import com.education.web.restful.response.model.Response;
@@ -118,7 +120,12 @@ public class RegistrationRestfulController {
 		return response;
 	}
 	
-	
+	/**
+	 * 
+	 * @param session
+	 * @param requests
+	 * @return
+	 */
 	@RequestMapping(value="/register-subject", method = RequestMethod.POST,  headers="Accept=application/json")
 	public @ResponseBody Response registerSubject(HttpSession session,@RequestBody Request[] requests)
 	{ 
@@ -130,6 +137,50 @@ public class RegistrationRestfulController {
 		 */
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> about to register class");
 		response																= subjectRegistrationHelper.saveSubjectDetails(session,requests);
+		
+		return response;
+	}
+	
+	
+	/**
+	 * 
+	 * @param session
+	 * @param requests
+	 * @return
+	 */
+	@RequestMapping(value="/register-class-teacher", method = RequestMethod.POST,  headers="Accept=application/json")
+	public @ResponseBody Response registerClassTeacher(HttpSession session,@RequestBody Request[] requests)
+	{ 
+		Response response														= new Response();
+		ClassTeacherRegistrationHelper classTeacherRegistrationHelper			= new ClassTeacherRegistrationHelper();
+		
+		/**
+		 * Delegate to registration helper
+		 */
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> about to register class");
+		response																= classTeacherRegistrationHelper.saveClassTeacherDetails(session,requests);
+		
+		return response;
+	}
+	
+	
+	/**
+	 * 
+	 * @param session
+	 * @param requests
+	 * @return
+	 */
+	@RequestMapping(value="/register-subject-teacher", method = RequestMethod.POST,  headers="Accept=application/json")
+	public @ResponseBody Response registerSubjectTeacher(HttpSession session,@RequestBody Request[] requests)
+	{ 
+		Response response														= new Response();
+		SubjectTeacherRegistrationHelper subjectTeacherRegistrationHelper		= new SubjectTeacherRegistrationHelper();
+		
+		/**
+		 * Delegate to registration helper
+		 */
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> about to register class");
+		response																= subjectTeacherRegistrationHelper.saveSubjectTeacherDetails(session,requests);
 		
 		return response;
 	}

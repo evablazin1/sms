@@ -13,13 +13,6 @@
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.6.1-allscripts.js"/>" ></script>
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-ui.min.js"/>" ></script>
 	     
-	         <!-- DWR Specific Mapping -->
-		<script type="text/javascript" src="<c:url value="/dwr/engine.js"/>"></script>
-		<script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
-		
-		<!-- Attribute Services -->
-		<script type="text/javascript" src="<c:url value="/dwr/interface/teacherService.js"/>"></script>
-		
 		<script type="text/javascript" src="<c:url value="/assets/js/yav.js"/>" ></script>
 		<script type="text/javascript" src="<c:url value="/assets/js/yav-config.js"/>" ></script>
 		<script type="text/javascript" src="<c:url value="/assets/js/bootstrap.js"/>" ></script>
@@ -37,21 +30,8 @@
 									<span class="innerError" id="errorsDiv_subjectName" style="color:red;"></span>
 								</td>
 	 						</tr>
-	 						
-	 						<tr>
-							    <td><label class="control-label" for="subjectTeacher"><Strong class="text-error span3">Subject Teacher :</Strong></label></td>
-								<td>
-									<div class="controls">
-										<select id="subjectTeacher" name="Subject Teacher">
-										</select>
-									</div>
-								</td>
-							</tr>
 	 					</table>
 						<input type="hidden" name="School ID" value="${schoolID}" />
-						<input type="hidden" name="Class ID" value="${classID}" />
-						<input type="hidden" name="Class Name" value="${className}" />
-						<input type="hidden" id="subjectTeacherName" name="Subject Teacher Name" value="" />
 						<div class="btn-group pull-left">
 						    <input id="reset" type="reset" class="btn btn-success" />
 						</div>
@@ -65,30 +45,13 @@
 				</div>
 		  <div class="span4"></div>
 		  <script type="text/javascript">
-
-		  $(document).ready(function() {
-				var schoolID								  = <c:out value="${schoolID}" />
-				
-				teacherService.retrieveListOfTeachers(schoolID,{callback:function(dataFromServer){
-						var	 listOfTeachers    			      = "<option value=''>Select a Subject Teacher</option>";
-					
-					$.each(dataFromServer, function (index,value){		
-						     listOfTeachers    			     += "<option value='"+value.id+"'>"+value.title+" "+value.firstName+" "+value.lastName+"</option>";
-					});
-					$("#subjectTeacher").append(listOfTeachers);
-				
-				}});
-		  });	
-			
-
-	   
+		  	  var schoolID										= <c:out value="${schoolID}" />; 
+		  	  
+		  	  
 			  //Submit Form
 			  function registerSubject(formID){ 
 				 $(".error").text("");
 				   if(validateForm(formID)){
-					   
-					   var subjectTeacherName		= $("#subjectTeacher").find(":selected").text();
-					   $("#subjectTeacherName").val(subjectTeacherName);
 					   
 					   //AJAX post
 					   var formData  		= JSON.stringify($("#"+formID).serializeArray());
@@ -101,7 +64,7 @@
 			   		 			contentType	: "application/json; charset=utf-8",
 			    				success		: function(dataFromServer){
 									if(dataFromServer.status=="Saved"){
-									   alert("saved");
+										window.location = "<c:url value='/subject/list-of-subjects?schoolID="+schoolID+"' />";
 									}
 									if(dataFromServer.status=="Not Saved"){
 										alert("not saved");
@@ -121,7 +84,6 @@
 				   //validation rules
 			        var validationRules 			= new Array();
 						validationRules[0] 			= "subjectName|required|Please enter a subject name"; 
-						validationRules[1] 			= "subjectTeacher|required|Please select a subject teacher";
 			        
 				return yav.performCheck(formID,validationRules,'inline');
 			  }

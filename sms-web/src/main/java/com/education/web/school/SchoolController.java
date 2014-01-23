@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value="/school")
 public class SchoolController {
 	
+	
+	
 	/**
 	 * 
 	 * @return
@@ -18,6 +20,11 @@ public class SchoolController {
 	}
 	
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value="/register-school")
 	public String registerSchool(){
 		

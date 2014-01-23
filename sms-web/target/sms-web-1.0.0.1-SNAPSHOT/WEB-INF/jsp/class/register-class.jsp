@@ -12,13 +12,6 @@
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.10.2.min.js"/>" ></script>
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.6.1-allscripts.js"/>" ></script>
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-ui.min.js"/>" ></script>
-	     
-	         <!-- DWR Specific Mapping -->
-		<script type="text/javascript" src="<c:url value="/dwr/engine.js"/>"></script>
-		<script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
-		
-		<!-- Attribute Services -->
-		<script type="text/javascript" src="<c:url value="/dwr/interface/teacherService.js"/>"></script>
 		
 		<script type="text/javascript" src="<c:url value="/assets/js/yav.js"/>" ></script>
 		<script type="text/javascript" src="<c:url value="/assets/js/yav-config.js"/>" ></script>
@@ -37,19 +30,9 @@
 									<span class="innerError" id="errorsDiv_className" style="color:red;"></span>
 								</td>
 	 						</tr>
-	 						
-	 						<tr>
-							    <td><label class="control-label" for="classTeacher"><Strong class="text-error span3">Class Teacher :</Strong></label></td>
-								<td>
-									<div class="controls">
-										<select id="classTeacher" name="Class Teacher">
-										</select>
-									</div>
-								</td>
-							</tr>
+
 	 					</table>
 						<input type="hidden" name="School ID" value="${schoolID}" />
-						<input type="hidden" id="classTeacherName" name="Class Teacher Name" value="" />
 						<div class="btn-group pull-left">
 						    <input id="reset" type="reset" class="btn btn-success" />
 						</div>
@@ -62,30 +45,13 @@
 					<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
 				</div>
 		  <div class="span4"></div>
-		  <script type="text/javascript">
-
-		  $(document).ready(function() {
-				var schoolID								  = <c:out value="${schoolID}" />
-				
-				teacherService.retrieveListOfTeachers(schoolID,{callback:function(dataFromServer){
-						var	 listOfTeachers    			      = "<option value=''>Select a Class Teacher</option>";
-					$.each(dataFromServer, function (index,value){		
-						     listOfTeachers    			     += "<option value='"+value.id+"'>"+value.title+" "+value.firstName+" "+value.lastName+"</option>";
-					});
-					$("#classTeacher").append(listOfTeachers);
-				}});
-		  });	
-			
-
-	   
-			  //Submit Form
+		  <script type="text/javascript">	
+		  
+		  var schoolID										= <c:out value="${schoolID}" />; 
+		  
+		  
+		  //Submit Form
 			  function registerClass(formID){
-				 
-				 if( $("#classTeacher").val()!=""){
-					 var classTeacherName		= $("#classTeacher").find(":selected").text();
-					 $("#classTeacherName").val(classTeacherName);
-				 }
-				
 				  
 				 $(".error").text("");
 				   if(validateForm(formID)){
@@ -101,7 +67,7 @@
 			   		 			contentType	: "application/json; charset=utf-8",
 			    				success		: function(dataFromServer){
 									if(dataFromServer.status=="Saved"){
-									   alert("saved");
+										window.location = "<c:url value='/class/list-of-classes?schoolID="+schoolID+"' />";
 									}
 									if(dataFromServer.status=="Not Saved"){
 										alert("not saved");

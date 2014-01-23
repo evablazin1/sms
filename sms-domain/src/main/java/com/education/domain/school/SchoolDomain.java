@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="schools")
+@Table(name="school")
 public class SchoolDomain implements Serializable {
 
 	/**

@@ -215,9 +215,11 @@
 				</div>
 		  <div class="span4"></div>
 		  <script type="text/javascript">
-
+		  	
+		  var schoolID										= <c:out value="${schoolID}" />; 
+		 
 		  $(document).ready(function() {
-				$("#dateOfBirth").datepicker({dateFormat: "mm/dd/yy",changeMonth: true,changeYear: true}); 
+			   $("#dateOfBirth").datepicker({dateFormat: "mm/dd/yy",changeMonth: true,changeYear: true}); 
 				
 				//Populate list of countries via DWR
 				countryService.getAllCoutries({callback:function(dataFromServer){
@@ -318,7 +320,7 @@
 		   		 			contentType	: "application/json; charset=utf-8",
 		    				success		: function(dataFromServer){
 								if(dataFromServer.status=="Saved"){
-								   alert("saved");
+									 window.location			= "<c:url value='/teacher/list-of-teachers?schoolID="+schoolID+"' />";
 								}
 								if(dataFromServer.status=="Not Saved"){
 									alert("not saved");

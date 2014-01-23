@@ -45,17 +45,23 @@
 		  <script type="text/javascript">
 
 		  $(document).ready(function() {
-			  var schoolID										= <c:out value="${schoolID}" />;
+			  var schoolID											= <c:out value="${schoolID}" />;
 			  
 			  teacherService.retrieveListOfTeachers(schoolID,{callback:function(dataFromServer){
 				 if (!$.isEmptyObject(dataFromServer)){
-					 	
-					var listOfTeacher              			    = "<tr>";
-					  $.each(dataFromServer,function(index,value){
-						  listOfTeacher    					   += "<td>"+ ++index +"</td><td>"+value.title+" "+value.firstName+" "+value.lastName+"</td>"; 	      
-						  listOfTeacher						   += "<td><a href=''><button class='btn btn-success'><Strong>Teacher</Strong></button></a></td>";   
+					 var listOfTeacher							   = "";
+					 $.each(dataFromServer,function(index,value){
+						 var classUrl						       = "<c:url value='/teacher/list-of-classes?schoolID="+schoolID+"&teacherID="+value.id+"'/>";
+						 var subjectUrl						       = "<c:url value='/teacher/list-of-subjects?schoolID="+schoolID+"&teacherID="+value.id+"'/>";
+						 
+							
+						    listOfTeacher              			   += "<tr>";
+						  	listOfTeacher    					   += "<td>"+ ++index +"</td><td>"+value.title+" "+value.firstName+" "+value.lastName+"</td>"; 	      
+						  	listOfTeacher						   += "<td><a href='"+classUrl+"'><button class='btn btn-success'><Strong>Class(es)</Strong></button></a>";
+						  	listOfTeacher						   += "<a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subject(s)</Strong></button></a></td>";
+						    listOfTeacher              		   	   += "</tr>";
 					  });
-					  	  listOfTeacher              		   += "</tr>";
+					  	
 					  
 					  $("#teacherTableBody").append(listOfTeacher);
 					  $("#teacherTable").show();

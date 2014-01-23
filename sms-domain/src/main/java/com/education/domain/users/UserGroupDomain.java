@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user_groups")
+@Table(name="user_group")
 public class UserGroupDomain implements Serializable{
 	
 	/**

@@ -26,15 +26,15 @@
 				<h3>List of Subjects</h3>
 						<table id="subjectTable" class="table table-striped table-hover" style="display:none;">
 							<thead>
-								<th>No.</th><th>Subject Name</th><th>Subject Teacher</th><th>Actions</th>
+								<th>No.</th><th>Subject Name</th><th>Actions</th>
 							</thead>
 							<tbody id="subjectTableBody">
 							</tbody>
 						</table>
-					 <div id="emptyDiv" style="display:none">There are no subjects registered yet.Please register subject(s) for this class below</div>
+					 <div id="emptyDiv" style="display:none">There are no subjects registered yet.Please register a subject below</div>
 					<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
 				<div class="btn-group pull-right">
-						<a href="<c:url value='/subject/register-subject?schoolID=${schoolID}&classID=${classID}'/>">
+						<a href="<c:url value='/subject/register-subject?schoolID=${schoolID}'/>">
 							<button id="register" class="btn btn-success" >
 								<Strong> Register Subject<i class="icon-hand-right icon-white"></i> </Strong>
 							</button>
@@ -46,16 +46,17 @@
 
 		  $(document).ready(function() {
 			  var schoolID											= <c:out value="${schoolID}" />;
-			  var classID											= <c:out value="${classID}" />;
 			  
-			  subjectService.retrieveListOfSubjects(schoolID,classID,{callback:function(dataFromServer){
+			  subjectService.retrieveListOfSubjects(schoolID,{callback:function(dataFromServer){
 				 if (!$.isEmptyObject(dataFromServer)){
-					var listOfSubjects              			    = "<tr>";
+					var listOfSubjects              			    = "";
 					  $.each(dataFromServer,function(index,value){
-						  listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td><td>"+value.subjectTeacherName+"</td>"; 	      
-						  listOfSubjects						   += "<td><a href=''><button class='btn btn-success'><Strong>click</Strong></button></a></td>";   
+					      listOfSubjects              			   += "<tr>";
+						  listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td>"; 	      
+						  listOfSubjects						   += "<td><a href=''><button class='btn btn-success'><Strong>Class(es)</Strong></button></a></td>"; 
+						  listOfSubjects              		   	   += "</tr>";
 					  });
-					      listOfSubjects              		   += "</tr>";
+					    
 					  
 					  $("#subjectTableBody").append(listOfSubjects);
 					  $("#subjectTable").show();

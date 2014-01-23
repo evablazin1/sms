@@ -200,7 +200,7 @@
 			   		 			contentType	: "application/json; charset=utf-8",
 			    				success		: function(dataFromServer){
 									if(dataFromServer.status=="Saved"){
-									   alert("saved");
+									   window.location = "<c:url value='/school/list-of-schools' />";
 									}
 									if(dataFromServer.status=="Not Saved"){
 										alert("not saved");
