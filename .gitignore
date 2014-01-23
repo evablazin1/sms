@@ -1,0 +1,5 @@
+sms-web/target
+sms-util/target
+sms-service/target
+sms-repository/target
+sms-domain/target
