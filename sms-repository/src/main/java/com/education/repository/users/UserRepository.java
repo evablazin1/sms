@@ -7,6 +7,6 @@ import com.education.domain.users.UserDomain;
 
 public interface UserRepository extends JpaRepository<UserDomain,Long>,PagingAndSortingRepository<UserDomain, Long>{
 	
-	public UserDomain findByUsername(String username);
+	public UserDomain findByProfileNumber(String profileNumber);
 	
 }

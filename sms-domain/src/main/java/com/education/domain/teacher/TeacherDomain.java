@@ -53,7 +53,7 @@ public class TeacherDomain implements Serializable {
 	@Column( name="mobile_number", nullable=false)
 	private String mobileNumber; 
 	
-	@Column( name="email_address", nullable=false)
+	@Column( name="email_address", nullable=true)
 	private String emailAddress; 
 	
 	@Column( name="country_of_origin", nullable=false)

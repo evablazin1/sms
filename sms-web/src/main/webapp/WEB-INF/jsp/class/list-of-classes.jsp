@@ -51,14 +51,14 @@
 				 if (!$.isEmptyObject(dataFromServer)){
 					var listOfClasses              			    = "";
 					  $.each(dataFromServer,function(index,value){
-					  var studentUrl						    = "<c:url value='/student/list-of-students?schoolID="+schoolID+"&classID="+value.classID+"'/>";
-					  var subjectUrl						    = "<c:url value='/subject/list-of-subjects?schoolID="+schoolID+"&classID="+value.classID+"'/>";
+					  var studentUrl						    = "<c:url value='/class/list-of-students?schoolID="+schoolID+"&classID="+value.id+"'/>";
+					  var subjectUrl						    = "<c:url value='/class/list-of-subjects?schoolID="+schoolID+"&classID="+value.id+"'/>";
 					  
 					     
 					      listOfClasses              		   += "<tr>";
-					   	  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td>"; 	      
-						  listOfClasses						   += "<td><a href='"+studentUrl+"'><button class='btn btn-success'><Strong>Students</Strong></button></a>";
-						  listOfClasses						   += "<a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";
+					   	  listOfClasses    					   += "<td>"+ ++index +"</td><td>"+value.className+"</td>"; 
+					   	  listOfClasses						   += "<td><a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a>";
+						  listOfClasses						   += "<a href='"+studentUrl+"'><button class='btn btn-success'><Strong>Students</Strong></button></a></td>"; 
 						  listOfClasses              		   += "</tr>";
 					  });
 					      

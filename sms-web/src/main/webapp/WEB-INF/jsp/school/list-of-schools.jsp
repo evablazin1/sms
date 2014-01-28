@@ -174,9 +174,10 @@
 						     
 						     	   listOfSchools							+=  "<tr>";
 							       listOfSchools						   	+= "<td>"+ ++index +"</td><td>"+value.nameOfSchool+"</td><td>"+value.address+"</td>";
-							       listOfSchools						   	+= "<td><a href='"+teacherUrl+"'><button class='btn btn-success'><Strong>Teachers</Strong></button></a>";		
+							       listOfSchools						   	+= "<td><a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a>";		
 							       listOfSchools						   	+= "<a href='"+classUrl+"'><button class='btn btn-success'><Strong>Classes</Strong></button></a>";
-							       listOfSchools						   	+= "<a href='"+subjectUrl+"'><button class='btn btn-success'><Strong>Subjects</Strong></button></a></td>";
+							       listOfSchools						   	+= "<a href='"+teacherUrl+"'><button class='btn btn-success'><Strong>Teachers</Strong></button></a></td>";
+							    
 							       listOfSchools						   	+= "</tr>";
 						 });
 						 

@@ -39,21 +39,32 @@
           <string>WEB-INF/jetty-web.xml</string>
           <string>WEB-INF/jsp/admin/register-admin.jsp</string>
           <string>WEB-INF/jsp/class/list-of-classes.jsp</string>
+          <string>WEB-INF/jsp/class/list-of-students.jsp</string>
+          <string>WEB-INF/jsp/class/list-of-subjects.jsp</string>
           <string>WEB-INF/jsp/class/register-class.jsp</string>
+          <string>WEB-INF/jsp/class/register-student.jsp</string>
+          <string>WEB-INF/jsp/class/register-subject.jsp</string>
+          <string>WEB-INF/jsp/class/student-subject.jsp</string>
           <string>WEB-INF/jsp/common/taglibs.jsp</string>
           <string>WEB-INF/jsp/index/index.jsp</string>
           <string>WEB-INF/jsp/school/list-of-schools.jsp</string>
           <string>WEB-INF/jsp/school/register-school.jsp</string>
           <string>WEB-INF/jsp/security/login.jsp</string>
           <string>WEB-INF/jsp/security/logout.jsp</string>
+          <string>WEB-INF/jsp/student/list-of-subjects.jsp</string>
+          <string>WEB-INF/jsp/student/register-subject.jsp</string>
+          <string>WEB-INF/jsp/subject/list-of-classes.jsp</string>
           <string>WEB-INF/jsp/subject/list-of-subjects.jsp</string>
           <string>WEB-INF/jsp/subject/register-subject.jsp</string>
+          <string>WEB-INF/jsp/subject/student-subject.jsp</string>
           <string>WEB-INF/jsp/teacher/list-of-classes.jsp</string>
+          <string>WEB-INF/jsp/teacher/list-of-students.jsp</string>
           <string>WEB-INF/jsp/teacher/list-of-subjects.jsp</string>
           <string>WEB-INF/jsp/teacher/list-of-teachers.jsp</string>
           <string>WEB-INF/jsp/teacher/register-class-teacher.jsp</string>
           <string>WEB-INF/jsp/teacher/register-subject-teacher.jsp</string>
           <string>WEB-INF/jsp/teacher/register-teacher.jsp</string>
+          <string>WEB-INF/jsp/teacher/student-subject.jsp</string>
           <string>WEB-INF/sms-servlet.xml</string>
           <string>WEB-INF/tags/base-page-layout.tag</string>
           <string>WEB-INF/web.xml</string>
@@ -63,9 +74,12 @@
           <string>WEB-INF/classes/com/education/web/controller/IndexController.class</string>
           <string>WEB-INF/classes/com/education/web/helper/AdminRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/ClassRegistrationHelper.class</string>
+          <string>WEB-INF/classes/com/education/web/helper/ClassSubjectRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/ClassTeacherRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/MailHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/SchoolRegistrationHelper.class</string>
+          <string>WEB-INF/classes/com/education/web/helper/StudentRegistrationHelper.class</string>
+          <string>WEB-INF/classes/com/education/web/helper/StudentSubjectRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/SubjectRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/SubjectTeacherRegistrationHelper.class</string>
           <string>WEB-INF/classes/com/education/web/helper/TeacherRegistrationHelper.class</string>
@@ -78,6 +92,7 @@
           <string>WEB-INF/classes/com/education/web/security/SecurityController.class</string>
           <string>WEB-INF/classes/com/education/web/security/SecurityHelper.class</string>
           <string>WEB-INF/classes/com/education/web/security/SecurityInterceptor.class</string>
+          <string>WEB-INF/classes/com/education/web/student/StudentController.class</string>
           <string>WEB-INF/classes/com/education/web/subject/SubjectController.class</string>
           <string>WEB-INF/classes/com/education/web/teacher/TeacherController.class</string>
           <string>WEB-INF/classes/context.xml</string>

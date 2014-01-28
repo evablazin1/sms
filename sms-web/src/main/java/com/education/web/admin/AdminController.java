@@ -12,8 +12,8 @@ public class AdminController {
 	
 	
 	
-	@Value("${security.groups}")
-	private String securityGroups;
+	@Value("${admin.groups}")
+	private String adminGroups;
 	
 	@Value("${titles}")
 	private String title;
@@ -25,7 +25,7 @@ public class AdminController {
 	@RequestMapping(value="/register-admin")
 	public String registerUser(Model model){
 		
-		String [] groups		=	 StringUtils.split(this.securityGroups, ",");
+		String [] groups		=	 StringUtils.split(this.adminGroups, ",");
 		String [] titles		=	 StringUtils.split(this.title, ",");
 		//check access level
 		model.addAttribute("groups", groups);

@@ -24,19 +24,19 @@
 					<form:form class="form-horizontal" id="loginForm" commandName="loginModel" >
 						<table class="table table-striped table-hover" >
 							<tr>
-							    <td><label class="control-label" for="username"><Strong class="text-error span3">Username :</Strong></label></td>
+							    <td><label class="control-label" for="profileNumber"><Strong class="text-error span3">Profile Number :</Strong></label></td>
 								<td>
 									<div class="controls">
-									<form:input id="username" path="username" placeholder="Enter your username" /></div>
-									<span class="innerError" id="errorsDiv_username" style="color:red;"></span>
+									<form:input id="profileNumber" path="profileNumber" placeholder="Enter your profile number" /></div>
+									<span class="innerError" id="errorsDiv_profileNumber" style="color:red;"></span>
 								</td>
 							</tr>
 							<tr>
-							    <td><label class="control-label" for="password"><Strong class="text-error span3">Password :</Strong></label></td>
+							    <td><label class="control-label" for="pinNumber"><Strong class="text-error span3">Pin Number :</Strong></label></td>
 								<td>
 									<div class="controls">
-									<form:password id="password" path="password" placeholder="Enter your password" /></div>
-									<span class="innerError" id="errorsDiv_password" style="color:red;"></span>
+									<form:password id="pinNumber" path="pinNumber" placeholder="Enter your Pin Number" /></div>
+									<span class="innerError" id="errorsDiv_pinNumber" style="color:red;"></span>
 									<span style="color:red;">${loginModel.message}</span>
 								</td>
 							</tr>

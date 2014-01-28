@@ -43,8 +43,7 @@
 									<span class="innerError" id="errorsDiv_classID" style="color:red;"></span>
 								</td>
 							</tr>
-
-	 					</table>
+						</table>
 	 					
 						<input type="hidden" name="School ID" value="${schoolID}" />
 						<input type="hidden" name="Class Teacher ID" value="${teacherID}" />
@@ -55,10 +54,16 @@
 						    <input id="reset" type="reset" class="btn btn-success" />
 						</div>
 					</form>
+					<div id="emptyDiv" style="display:none">There are no classes registered for this school yet.Please register a class below</div>
 					<div class="btn-group pull-right">
 							<button id="register" class="btn btn-success" onClick="javascript:registerClassTeacher('classTeacherRegistrationForm');" >
 								<Strong> Register <i class="icon-hand-right icon-white"></i> </Strong>
 							</button>
+							<a href="<c:url value='/classs/register-class?schoolID=${schoolID}' />" id="registerClass" style="display:none">
+								<button class="btn btn-success">
+									<Strong> Register Class<i class="icon-hand-right icon-white"></i> </Strong>
+								</button>
+							</a>
 					</div>
 					<div id="loading" style="display:none;position:absolute;top:50%;left:40%"><img src="<c:url value="/assets/images/loading.gif"/>" /></div>
 				</div>
@@ -70,11 +75,17 @@
 		  
 		  $(document).ready(function() {
 			  classService.retrieveListOfClasses(schoolID,{callback:function(dataFromServer){
+				  
+				  if (!$.isEmptyObject(dataFromServer)){
 					var listOfClasses              			    = "";
 					  $.each(dataFromServer,function(index,value){
 					   	  listOfClasses    					   += "<option value='"+value.id+"'>"+value.className+"</option>"; 	   
 					  });
 					  $("#classID").append(listOfClasses);
+				   }else{
+					   $("#emptyDiv,#registerClass").show();
+					   $("#classTeacherRegistrationForm,#register").hide();
+				   }
 			  }});
 		  });
 		  

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import com.education.domain.teacher.TeacherDomain;
 import com.education.domain.users.UserDomain;
 import com.education.repository.teacher.TeacherRepository;
+import com.education.repository.users.UserRepository;
 import com.education.web.restful.request.model.Request;
 import com.education.web.restful.response.model.Response;
 import com.education.web.security.SecurityHelper;
@@ -26,11 +27,15 @@ public class TeacherRegistrationHelper {
 	@Autowired
 	TeacherRepository teacherrepository;
 	
+	@Autowired
+	UserRepository userrepository;
+	
 	@Value("${inactive.status}")
 	private String inactivestatus;
 
 	private static String inactiveStatus;
 	private static TeacherRepository teacherRepository;
+	private static UserRepository userRepository;
 	
 	private static final Logger logger 												   = LoggerFactory.getLogger(TeacherRegistrationHelper.class);
 	
@@ -42,6 +47,7 @@ public class TeacherRegistrationHelper {
 	public void initializeDependency(){
 		 inactiveStatus																	= this.inactivestatus;
 		 teacherRepository																= this.teacherrepository;
+		 userRepository															   		= this.userrepository;
 	}
 	
 	
@@ -64,7 +70,8 @@ public class TeacherRegistrationHelper {
 		TeacherDomain teacherDomain		    												= new TeacherDomain();
 		
 		String createdBy																	= !StringUtils.isEmpty((String)session.getAttribute(SecurityHelper.USER_NAME))?(String)session.getAttribute(SecurityHelper.USER_NAME):"Super-Admin";
-		String password																		= RandomStringUtils.randomAlphanumeric(8);
+		String profileNumber																= generateProfileNumber();
+		String pinNumber																	= RandomStringUtils.randomNumeric(4);
 		
 		try{
 				
@@ -74,7 +81,7 @@ public class TeacherRegistrationHelper {
 				 */
 			
 				UserRegistrationHelper userRegistrationHelper								= new UserRegistrationHelper();
-				UserDomain userDomain 														= userRegistrationHelper.saveUserDetails(session,requests,password,createdBy);
+				UserDomain userDomain 														= userRegistrationHelper.saveUserDetails(session,requests,profileNumber,pinNumber,createdBy);
 				
 				/**
 				 * Save details to Teacher table
@@ -160,10 +167,15 @@ public class TeacherRegistrationHelper {
 				teacherRepository.save(teacherDomain);
 
 				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered Teacher");
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Delegating to MailHelper");
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sending login details to new user");
 				
 				
-				
+				/**
+				 * ***********************************************************************
+				 * Delegate to smshelper to send login details to new user for activation
+				 * *********************************************************************** 
+				 */
+				//TODO: Add sms impementation
 				
 				
 				/**
@@ -171,12 +183,10 @@ public class TeacherRegistrationHelper {
 				 * Delegate to mailhelper to send login details to new user for activation
 				 * *********************************************************************** 
 				 */
-				//TODO: Add sms impementation
-				MailHelper mailHelper														=  new MailHelper();
-				
-				String addresses[]															= {StringUtils.trim(emailAddress)};				
-				mailHelper.sendMail("Login Details", addresses, StringUtils.trim(emailAddress), password);
-				
+				if(StringUtils.isNotEmpty(emailAddress)){
+					MailHelper mailHelper														=  new MailHelper();			
+					mailHelper.sendMail("Login Details", emailAddress, profileNumber, pinNumber);
+				}
 				/**
 				 * Send response back to controller
 				 */
@@ -192,5 +202,21 @@ public class TeacherRegistrationHelper {
 		}
 		
 		return response;
+	}
+	
+	
+	
+	private String generateProfileNumber(){
+		String randomNumber																		= "";
+		
+		/**
+		 *  To check if a user already exists with a profile number
+		 */
+		do{
+			randomNumber																		= RandomStringUtils.randomNumeric(8);
+		}
+		while(userRepository.findByProfileNumber(randomNumber)!=null);
+			
+		return randomNumber;
 	}
 }

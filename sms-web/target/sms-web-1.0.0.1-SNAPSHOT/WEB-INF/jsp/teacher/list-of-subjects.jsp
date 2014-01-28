@@ -26,7 +26,7 @@
 				<h3>List of subjects</h3>
 						<table id="subjectTable" class="table table-striped table-hover" style="display:none;">
 							<thead>
-								<th>No.</th><th>Name of Subject</th><th>Actions</th>
+								<th>No.</th><th>Name of Subject</th><th>Class</th><th>Actions</th>
 							</thead>
 							<tbody id="subjectTableBody">
 							</tbody>
@@ -52,10 +52,10 @@
 				 if (!$.isEmptyObject(dataFromServer)){
 					var listOfSubjects              			    = "";
 					  $.each(dataFromServer,function(index,value){
-					  		var studentUrl						    = "";
+					  		var studentUrl						    = "<c:url value='/teacher/student-subject?schoolID="+schoolID+"&classID="+value.classID+"&subjectID="+value.subjectID+"&teacherID="+teacherID+"'/>";
 					  
 					  		listOfSubjects              		   += "<tr>";
-					  		listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td>"; 	      
+					  		listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td><td>"+value.className+"</td>"; 	      
 					  		listOfSubjects						   += "<td><a href='"+studentUrl+"'><button class='btn btn-success'><Strong>Students</Strong></button></a></td>";
 					  		listOfSubjects              		   += "</tr>";
 					  });

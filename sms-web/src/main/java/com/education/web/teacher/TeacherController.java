@@ -121,15 +121,6 @@ public class TeacherController {
 	 * @param teacherID
 	 * @return
 	 */
-	@RequestMapping(value="/list-of-subjects")
-	public String listOfSubjects(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long teacherID){
-		
-		model.addAttribute("schoolID", schoolID);
-		model.addAttribute("teacherID", teacherID);
-		
-		return "teacher/list-of-subjects";
-	}
-	
 	@RequestMapping(value="/register-subject-teacher")
 	public String registerSubjectTeacher(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long teacherID){
 		
@@ -140,5 +131,63 @@ public class TeacherController {
 		model.addAttribute("subjectTeacherName", teacherDomain.getTitle()+" "+teacherDomain.getFirstName()+" "+teacherDomain.getLastName());
 		
 		return "teacher/register-subject-teacher";
+	}
+	
+	
+	
+	
+	/**
+	 * 
+	 * @param model
+	 * @param schoolID
+	 * @param teacherID
+	 * @return
+	 */
+	@RequestMapping(value="/list-of-subjects")
+	public String listOfSubjects(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long teacherID){
+		
+		model.addAttribute("schoolID", schoolID);
+		model.addAttribute("teacherID", teacherID);
+		
+		return "teacher/list-of-subjects";
+	}
+	
+	
+	/**
+	 * 
+	 * @param model
+	 * @param schoolID
+	 * @param classID
+	 * @return
+	 */
+	@RequestMapping(value="/list-of-students")
+	public String listOfStudents(Model model,@RequestParam(required=true) Long schoolID,Long classID){
+		
+		model.addAttribute("schoolID", schoolID);
+		model.addAttribute("classID", classID);
+		
+		return "teacher/list-of-students";
+	}
+	
+	
+	/**
+	 *
+	 * @param model
+	 * @param schoolID
+	 * @param classID
+	 * @param subjectID
+	 * @return
+	 */
+	@RequestMapping(value="/student-subject")
+	public String listOfStudents(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long classID,
+									@RequestParam(required=true) Long subjectID,@RequestParam(required=true) Long teacherID){
+		
+		model.addAttribute("schoolID", schoolID);
+		model.addAttribute("classID", classID);
+		
+		model.addAttribute("subjectID", subjectID);
+		model.addAttribute("teacherID", teacherID);
+		
+		return "teacher/student-subject";
 	}
 }

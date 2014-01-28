@@ -18,7 +18,7 @@
 		<script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
 		
 		<!-- Attribute Services -->
-		<script type="text/javascript" src="<c:url value="/dwr/interface/classService.js"/>"></script>
+		<script type="text/javascript" src="<c:url value="/dwr/interface/classSubjectService.js"/>"></script>
 		<script type="text/javascript" src="<c:url value="/dwr/interface/subjectService.js"/>"></script>
 		
 		<script type="text/javascript" src="<c:url value="/assets/js/yav.js"/>" ></script>
@@ -28,7 +28,7 @@
 	<jsp:body>
 		  <div class="span4"></div>
 				<div class="span7">
-				<h3>Register a class teacher</h3>
+				<h3>Register a subject teacher</h3>
 					<form class="form-horizontal" id="subjectTeacherRegistrationForm" >
 						<table class="table table-striped table-hover" >
 							<tr>
@@ -45,7 +45,7 @@
 								</td>
 							</tr>
 							
-							<tr>
+							<tr id="classInput" style="display:none;">
 								<td><label class="control-label" for="class"><Strong class="text-error span3">Class:</Strong></label></td>
 									<td>
 									   <div class="controls">
@@ -92,15 +92,21 @@
 					  });
 					  $("#subjectID").append(listOfSubjects);
 			  }});
+		 });
+		  
+		  
+		  $("#subjectID").live("change", function() {
+			  $("#classID").empty();
+			  var subjectID									= $(this).val();
 			  
-			  
-			  classService.retrieveListOfClasses(schoolID,{callback:function(dataFromServer){
+		  	 classSubjectService.retrieveListOfClasses(schoolID,subjectID,{callback:function(dataFromServer){
 					var listOfClasses              			    = "";
-					  $.each(dataFromServer,function(index,value){
-					   	  listOfClasses    					   += "<option value='"+value.id+"'>"+value.className+"</option>"; 	   
-					  });
-					  $("#classID").append(listOfClasses);
-			  }});
+				  	$.each(dataFromServer,function(index,value){
+				   	  listOfClasses    					   += "<option value='"+value.classID+"'>"+value.className+"</option>"; 	   
+				  	});
+				  	$("#classID").append(listOfClasses);
+				  	$("#classInput").show();
+		  	}});
 		  });
 		  
 		  

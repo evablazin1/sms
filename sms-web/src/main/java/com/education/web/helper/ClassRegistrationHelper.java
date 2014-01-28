@@ -1,6 +1,8 @@
 package com.education.web.helper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
@@ -26,7 +28,7 @@ public class ClassRegistrationHelper {
 	 */
 	@Autowired
 	ClassRepository classrepository;
-
+	
 	
 	/**
 	 * 
@@ -79,6 +81,8 @@ public class ClassRegistrationHelper {
 			
 			String className															= "";
 			String schoolID																= "";
+			String subject																= "";
+			List<String> subjects													    = new ArrayList<String>();
 			
 			
 			
@@ -88,8 +92,19 @@ public class ClassRegistrationHelper {
 			for(Request request : requests){
 				className																= StringUtils.equals(request.getName().trim(),"Class Name")?request.getValue().trim():className;
 				schoolID																= StringUtils.equals(request.getName().trim(),"School ID")?request.getValue().trim():schoolID;
+				/**
+				 * Retrieve values from multiple select
+				 */
+				if(StringUtils.equals(request.getName().trim(),"Subjects")){
+					subject																= request.getValue().trim();
+					subjects.add(subject);
+				}
+				
 			}
 			
+			/**
+			 * Save details to class table
+			 */
 			classDomain.setClassName(className);
 			classDomain.setSchoolID(Long.valueOf(schoolID));
 			classDomain.setStatus(inActiveStatus);
@@ -102,13 +117,13 @@ public class ClassRegistrationHelper {
 			classDomain																	= classRepository.save(classDomain);
 			
 			/**
-			 * Save details to class teacher table
+			 * Save details to class subject table
 			 */
-
-			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered class");
 			
-			response.setStatus("Saved");
-			response.setMessage("Details have been successfully saved to the Database.");
+			ClassSubjectRegistrationHelper  classSubjectRegistrationHelper				= new ClassSubjectRegistrationHelper();
+			response																	= classSubjectRegistrationHelper.saveClassSubjectDetails(session, subjects, Long.valueOf(schoolID), classDomain.getId(), className);
+			
+			logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully registered class");
 			
 		}catch(Exception ex){
 			

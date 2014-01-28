@@ -3,22 +3,21 @@ package com.education.web.security.model;
 public class LoginModel {
 
 	
-	private String username;
-	private String password;
+	private String profileNumber;
+	private String pinNumber;
 	private String message;
 	
-	
-	public String getUsername() {
-		return username;
+	public String getProfileNumber() {
+		return profileNumber;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setProfileNumber(String profileNumber) {
+		this.profileNumber = profileNumber;
 	}
-	public String getPassword() {
-		return password;
+	public String getPinNumber() {
+		return pinNumber;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPinNumber(String pinNumber) {
+		this.pinNumber = pinNumber;
 	}
 	public String getMessage() {
 		return message;
@@ -26,4 +25,6 @@ public class LoginModel {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	
 }

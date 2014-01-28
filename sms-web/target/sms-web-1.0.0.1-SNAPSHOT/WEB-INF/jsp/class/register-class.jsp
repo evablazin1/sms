@@ -12,6 +12,13 @@
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.10.2.min.js"/>" ></script>
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-1.6.1-allscripts.js"/>" ></script>
 	     <script type="text/javascript" src="<c:url value="/assets/js/jquery-ui.min.js"/>" ></script>
+	     
+	      <!-- DWR Specific Mapping -->
+		<script type="text/javascript" src="<c:url value="/dwr/engine.js"/>"></script>
+		<script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
+		
+		<!-- Attribute Services -->
+		<script type="text/javascript" src="<c:url value="/dwr/interface/subjectService.js"/>"></script>
 		
 		<script type="text/javascript" src="<c:url value="/assets/js/yav.js"/>" ></script>
 		<script type="text/javascript" src="<c:url value="/assets/js/yav-config.js"/>" ></script>
@@ -30,6 +37,18 @@
 									<span class="innerError" id="errorsDiv_className" style="color:red;"></span>
 								</td>
 	 						</tr>
+	 						
+	 						<tr>
+								<td><label class="control-label" for="subjects"><Strong class="text-error span3">Subjects Offered :</Strong></label></td>
+									<td>
+									   <div class="controls" >
+										 <select id="subjects" name="Subjects" multiple="multiple" size="4" >
+											 <!-- Dynamically populate subjects -->
+										 </select>
+									   </div>
+									<span class="innerError" id="errorsDiv_subjects" style="color:red;"></span>
+								</td>
+							</tr>
 
 	 					</table>
 						<input type="hidden" name="School ID" value="${schoolID}" />
@@ -48,6 +67,17 @@
 		  <script type="text/javascript">	
 		  
 		  var schoolID										= <c:out value="${schoolID}" />; 
+		  
+		  $(document).ready(function(){
+			  
+			  subjectService.retrieveListOfSubjects(schoolID,{callback:function(dataFromServer){
+						var listOfSubjects              			    = "";
+						  $.each(dataFromServer,function(index,value){
+						      listOfSubjects              			   += "<option value='"+value.id+"'>"+value.subjectName+"</option>";     
+						  });
+						  $("#subjects").append(listOfSubjects);
+				}});
+		});
 		  
 		  
 		  //Submit Form
@@ -87,6 +117,7 @@
 				   //validation rules
 			        var validationRules 			= new Array();
 						validationRules[0] 			= "className|required|Please enter a class name"; 
+						validationRules[1] 			= "subjects|required|Please select a subject";
 			        
 				return yav.performCheck(formID,validationRules,'inline');
 			  }

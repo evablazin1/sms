@@ -38,5 +38,27 @@ public class SubjectController {
 		model.addAttribute("schoolID", schoolID);
 		return "subject/register-subject";
 	}
+	
+	
+
+	@RequestMapping(value="/list-of-classes")
+	public String listOfClasses(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long subjectID){
+		
+		model.addAttribute("schoolID", schoolID);
+		model.addAttribute("subjectID", subjectID);
+		
+		return "subject/list-of-classes";
+	}
+	
+	@RequestMapping(value="/student-subject")
+	public String listOfStudents(Model model,@RequestParam(required=true) Long schoolID,@RequestParam(required=true) Long classID,
+									@RequestParam(required=true) Long subjectID){
+		
+		model.addAttribute("schoolID", schoolID);
+		model.addAttribute("classID", classID);
+		model.addAttribute("subjectID", subjectID);
+		
+		return "subject/student-subject";
+	}
 
 }

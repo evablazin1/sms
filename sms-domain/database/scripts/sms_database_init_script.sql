@@ -38,8 +38,8 @@ CREATE SEQUENCE user_id_seq START WITH 1000;
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users(
 	id 				integer primary key  default nextval('user_id_seq'),
-	username 		varchar(255) unique NOT NULL,
-	password 		varchar(255) NOT NULL,
+	profile_number 	varchar(255) unique NOT NULL,
+	pin_number 		varchar(255) NOT NULL,
 	title			varchar(20)  NOT NULL,
 	first_name      varchar( 255 ) NOT NULL,
 	last_name		varchar( 255 ) NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE user_group(
 
 
 
--- Admin Tables
+-- Admin Table
 DROP SEQUENCE IF EXISTS admin_id_seq CASCADE;
 CREATE SEQUENCE admin_id_seq START WITH 1;
 
@@ -81,7 +81,7 @@ CREATE TABLE admin(
 	date_of_birth   		timestamp  NOT NULL,
 	age	    				varchar( 20 ) NOT NULL,
 	mobile_number	    	varchar( 255 ) NOT NULL,
-	email_address			varchar( 255 ) NOT NULL,
+	email_address			varchar( 255 ) ,
 	country_of_origin   	varchar( 255 ) NOT NULL,
 	id_number				varchar( 255 ) NOT NULL,
 	country_of_residence    varchar( 255 ) NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE admin(
 );
 
 
--- School Tables
+-- School Table
 DROP SEQUENCE IF EXISTS school_id_seq CASCADE;
 CREATE SEQUENCE school_id_seq START WITH 1;
 
@@ -119,7 +119,7 @@ CREATE TABLE school(
 );
 
 
--- Teacher Tables
+-- Teacher Table
 DROP SEQUENCE IF EXISTS teacher_id_seq CASCADE;
 CREATE SEQUENCE teacher_id_seq START WITH 1;
 
@@ -136,7 +136,7 @@ CREATE TABLE teacher(
 	date_of_birth   		timestamp  NOT NULL,
 	age	    				varchar( 20 ) NOT NULL,
 	mobile_number	    	varchar( 255 ) NOT NULL,
-	email_address			varchar( 255 ) NOT NULL,
+	email_address			varchar( 255 ),
 	country_of_origin   	varchar( 255 ) NOT NULL,
 	id_number				varchar( 255 ) NOT NULL,
 	country_of_residence    varchar( 255 ) NOT NULL,
@@ -152,7 +152,7 @@ CREATE TABLE teacher(
 );
 
 
--- Class Tables
+-- Class Table
 DROP SEQUENCE IF EXISTS class_id_seq CASCADE;
 CREATE SEQUENCE class_id_seq START WITH 1;
 
@@ -169,7 +169,47 @@ CREATE TABLE class(
 );
 
 
--- ClassTeacher Tables
+
+-- Subject Table
+DROP SEQUENCE IF EXISTS subject_id_seq CASCADE;
+CREATE SEQUENCE subject_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS subject CASCADE;
+CREATE TABLE subject (
+	id 						integer primary key  default nextval('subject_id_seq'),
+	school_id 				integer references school(id)  NOT NULL,
+	subject_name			varchar(255) NOT NULL,
+    status 					varchar(255) NOT NULL,
+    created_by		    	varchar(255) NOT NULL,
+    modified_by		    	varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
+
+
+-- Class Subject Table
+DROP SEQUENCE IF EXISTS class_subject_id_seq CASCADE;
+CREATE SEQUENCE class_subject_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS class_subject CASCADE;
+CREATE TABLE class_subject (
+	id 						integer primary key  default nextval('class_subject_id_seq'),
+	school_id 				integer references school(id)  NOT NULL,
+	class_id    			integer references class(id) NOT NULL,
+	subject_id    			integer references subject(id) NOT NULL,
+	class_name				varchar(255) NOT NULL,
+	subject_name			varchar(255) NOT NULL,
+    status 					varchar(255) NOT NULL,
+    created_by		    	varchar(255) NOT NULL,
+    modified_by		    	varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
+
+
+
+
+-- ClassTeacher Table
 DROP SEQUENCE IF EXISTS class_teacher_id_seq CASCADE;
 CREATE SEQUENCE class_teacher_id_seq START WITH 1;
 
@@ -188,24 +228,9 @@ CREATE TABLE class_teacher(
 	modified_date 		timestamp  NOT NULL DEFAULT CURRENT_DATE
 );
 
--- Subject Tables
-DROP SEQUENCE IF EXISTS subject_id_seq CASCADE;
-CREATE SEQUENCE subject_id_seq START WITH 1;
-
-DROP TABLE IF EXISTS subject CASCADE;
-CREATE TABLE subject (
-	id 						integer primary key  default nextval('subject_id_seq'),
-	school_id 				integer references school(id)  NOT NULL,
-	subject_name			varchar(255) NOT NULL,
-    status 					varchar(255) NOT NULL,
-    created_by		    	varchar(255) NOT NULL,
-    modified_by		    	varchar(255) NOT NULL,
-	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
-	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
-);
 
 
--- SubjectTeacher Tables
+-- Subject Teacher Table
 DROP SEQUENCE IF EXISTS subject_teacher_id_seq CASCADE;
 CREATE SEQUENCE subject_teacher_id_seq START WITH 1;
 
@@ -227,10 +252,61 @@ CREATE TABLE subject_teacher (
 );
 
 
+-- Student Table
+DROP SEQUENCE IF EXISTS student_id_seq CASCADE;
+CREATE SEQUENCE student_id_seq START WITH 1;
+
+DROP TABLE IF EXISTS student CASCADE;
+CREATE TABLE student(
+	id 						integer primary key  default nextval('student_id_seq'),
+	user_id 				integer references users( id )  NOT NULL,
+	school_id 				integer references school( id )  NOT NULL,
+    class_id 				integer references class( id )  NOT NULL,
+    class_name				varchar( 255 ) NOT NULL,
+	status					varchar( 255 ) NOT NULL,
+	first_name      		varchar( 255 ) NOT NULL,
+	last_name				varchar( 255 ) NOT NULL,
+	sex						varchar( 20 ) NOT NULL,
+	date_of_birth   		timestamp  NOT NULL,
+	age	    				varchar( 20 ) NOT NULL,
+	mobile_number	    	varchar( 255 ),
+	email_address			varchar( 255 ),
+	country_of_origin   	varchar( 255 ) NOT NULL,
+	id_number				varchar( 255 ) NOT NULL,
+	country_of_residence    varchar( 255 ) NOT NULL,
+	province 				varchar(255) NOT NULL,
+	city 					varchar(255) NOT NULL,
+	address					varchar( 255 ) NOT NULL,
+	suburb					varchar( 255 ) NOT NULL,
+	postal_code				varchar( 255 ) NOT NULL,
+	created_by 				varchar(255) NOT NULL,
+	modified_by 			varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
 
 
 
+-- Student-Subject Table
+DROP SEQUENCE IF EXISTS student_subject_id_seq CASCADE;
+CREATE SEQUENCE student_subject_id_seq START WITH 1;
 
+DROP TABLE IF EXISTS student_subject CASCADE;
+CREATE TABLE student_subject (
+	id 						integer primary key  default nextval('student_subject_id_seq'),
+	school_id 				integer references school(id)  NOT NULL,
+	class_id    			integer references class(id) NOT NULL,
+	student_id    			integer references student(id) NOT NULL,
+	subject_id    			integer references subject(id) NOT NULL,
+	class_name				varchar(255) NOT NULL,
+	student_name			varchar(255) NOT NULL,
+	subject_name			varchar(255) NOT NULL,
+    status 					varchar(255) NOT NULL,
+    created_by		    	varchar(255) NOT NULL,
+    modified_by		    	varchar(255) NOT NULL,
+	created_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE,
+	modified_date 			timestamp  NOT NULL DEFAULT CURRENT_DATE
+);
 
 
 

@@ -31,8 +31,8 @@ public class StudentDomain implements Serializable {
 	@Column( name="class_id", nullable=false)
 	private Long classID; 
 	
-	@Column( name="parent_id", nullable=true)
-	private Long parentID; 
+	@Column( name="class_name", nullable=false)
+	private String className; 
 	
 	@Column( name="status", nullable=false)
 	private String status;
@@ -126,12 +126,12 @@ public class StudentDomain implements Serializable {
 		this.classID = classID;
 	}
 
-	public Long getParentID() {
-		return parentID;
+	public String getClassName() {
+		return className;
 	}
 
-	public void setParentID(Long parentID) {
-		this.parentID = parentID;
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	public String getStatus() {

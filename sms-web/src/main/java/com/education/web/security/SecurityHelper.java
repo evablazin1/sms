@@ -119,29 +119,29 @@ public class SecurityHelper {
 	 * @param userRepository
 	 * @return
 	 */
-	public static boolean authenticateUser( HttpSession session, String username,String password){
+	public static boolean authenticateUser( HttpSession session, String profileNumber,String pinNumber){
 		
-		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> About to authenticate user : " + username);
+		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> About to authenticate user : " + profileNumber);
 		
 		try{
 			
 			/**
-			 * Retrieve User from database by Username
+			 * Retrieve User from database by profile number
 			 */
-			UserDomain userDomain													=	userRepository.findByUsername(StringUtils.trim(username));
+			UserDomain userDomain													=	userRepository.findByProfileNumber(StringUtils.trim(profileNumber));
 			
 			/**
 			 * Validate if user exists
 			 */
 			if(userDomain!=null){
 			
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> User found : " + userDomain.getUsername());
+				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> User found : " + userDomain.getProfileNumber());
 				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Full Name : " + userDomain.getTitle()+" "+userDomain.getFirstName()+" "+userDomain.getLastName());
 				
 				/**
 				 * Validate Password
 				 */
-				if(StringUtils.equals(DigestUtils.md5Hex(password), userDomain.getPassword())){
+				if(StringUtils.equals(DigestUtils.md5Hex(pinNumber), userDomain.getPinNumber())){  
 					
 					logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Password authenticated ");
 				

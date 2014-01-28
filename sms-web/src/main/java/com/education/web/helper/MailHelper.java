@@ -20,45 +20,45 @@ public class MailHelper {
 	private static JavaMailSender mailSender;
 	
 	@Value("${email.from.address}")
-	private String fromAddress;
+	private String fromaddress;
 	
-	private static String newFromAddress;
+	private static String fromAddress;
 	
 	@PostConstruct
 	public void initializeDependency(){
-		newFromAddress			=	this.fromAddress;
+		fromAddress			=	this.fromaddress;
 	}
 	
 
 	
-	public void sendMail(String subject,String[] emailAddress,String username,String password){
+	public void sendMail(String subject,String emailAddress, String profileNumber,String pinNumber){
 			try{
+				
 				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> about to send mail to : " + emailAddress);
-				MimeMessage message								= mailSender.createMimeMessage();
-				MimeMessageHelper helper 						= new MimeMessageHelper(message, true);
 				
+				MimeMessage message													= mailSender.createMimeMessage();
+				MimeMessageHelper helper 											= new MimeMessageHelper(message, true);
 				
-				logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> from address : " + newFromAddress);
-				helper.setFrom(newFromAddress);
+				helper.setFrom(fromAddress);
 				helper.setTo(emailAddress);
 				helper.setSubject(subject);
+				
 				//If you have anything nice to say,else just send the attachment alone :)
 				helper.setText("You have been successfully registered to the school management system.Please find your temporary login details below : \n" +
-								"Username 	: " + username + "\n" +
-								"Password	: " + password	+ "\n\n" +
-								"Remember to change your login details on initial login");
+								"Profile Number 	: " + profileNumber + "\n" +
+								"Pin Number	: " + pinNumber	+ "\n\n" +
+								"Remember to change your pin number on initial login");
 				//helper.addAttachment(file.getName(), file);
 		
 					try{
 						mailSender.send(message); 
-						for(String email:emailAddress ){
-							logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully sent mail to : " + email);
-						}
-					
+						logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> successfully sent mail to : " + emailAddress);					
 					
 					}catch(MailException ex) {
 						logger.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + ex.getMessage());
 					}
+					
+					
 			}catch(MessagingException m){
 				logger.error(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + m.getMessage()); 
 			}
@@ -74,18 +74,6 @@ public class MailHelper {
 
 	public static void setMailSender(JavaMailSender mailSender) {
 		MailHelper.mailSender = mailSender;
-	}
-
-
-
-	public String getFromAddress() {
-		return this.fromAddress;
-	}
-
-
-
-	public  void setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
 	}
 
 }

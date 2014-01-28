@@ -51,9 +51,11 @@
 				 if (!$.isEmptyObject(dataFromServer)){
 					var listOfSubjects              			    = "";
 					  $.each(dataFromServer,function(index,value){
+							var classUrl						    = "<c:url value='/subject/list-of-classes?schoolID="+schoolID+"&subjectID="+value.id+"'/>";
+						  
 					      listOfSubjects              			   += "<tr>";
 						  listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td>"; 	      
-						  listOfSubjects						   += "<td><a href=''><button class='btn btn-success'><Strong>Class(es)</Strong></button></a></td>"; 
+						  listOfSubjects						   += "<td><a href='"+classUrl+"'><button class='btn btn-success'><Strong>Class(es)</Strong></button></a></td>"; 
 						  listOfSubjects              		   	   += "</tr>";
 					  });
 					    

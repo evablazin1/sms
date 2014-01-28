@@ -22,11 +22,11 @@ public class UserDomain implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY )
 	private Long id;
 	
-	@Column( name="username", nullable=false)
-	private String username; 
+	@Column( name="profile_number", nullable=false)
+	private String profileNumber; 
 	
-	@Column( name="password", nullable=false)
-	private String password;
+	@Column( name="pin_number", nullable=false)
+	private String pinNumber;
 	
 	@Column( name="title", nullable=false)
 	private String title;
@@ -60,20 +60,20 @@ public class UserDomain implements Serializable {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getProfileNumber() {
+		return profileNumber;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setProfileNumber(String profileNumber) {
+		this.profileNumber = profileNumber;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPinNumber() {
+		return pinNumber;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPinNumber(String pinNumber) {
+		this.pinNumber = pinNumber;
 	}
 
 	public String getTitle() {
@@ -139,4 +139,5 @@ public class UserDomain implements Serializable {
 	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
+
 }

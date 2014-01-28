@@ -59,7 +59,7 @@ public class UserRegistrationHelper {
 	 * @param createdBy
 	 * @return
 	 */
-	public UserDomain saveUserDetails(HttpSession session,Request[] requests,String password,String createdBy){
+	public UserDomain saveUserDetails(HttpSession session,Request[] requests,String profileNumber,String pinNumber,String createdBy){
 		
 		logger.debug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Registering user details ");
 	
@@ -86,11 +86,12 @@ public class UserRegistrationHelper {
 				/**
 				 *  Save to users table
 				 */
+				userDomain.setProfileNumber(profileNumber);
+				userDomain.setPinNumber(DigestUtils.md5Hex(pinNumber));	
 				userDomain.setTitle(title);
 				userDomain.setFirstName(firstName);
 				userDomain.setLastName(lastName);
-				userDomain.setUsername(StringUtils.trim(userName));   //TODO:check for existing username
-				userDomain.setPassword(DigestUtils.md5Hex(password));
+			
 				
 				userDomain.setStatus(StringUtils.trim(inactiveStatus));
 				userDomain.setCreatedBy(createdBy);

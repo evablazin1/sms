@@ -60,12 +60,12 @@ public class SecurityController {
 	@RequestMapping(value="/login",method =RequestMethod.POST)
 	public String loginPost(HttpSession session,@ModelAttribute("loginModel") LoginModel loginModel)
 	{	
-		if(SecurityHelper.authenticateUser(session,loginModel.getUsername(),loginModel.getPassword()))
+		if(SecurityHelper.authenticateUser(session,loginModel.getProfileNumber(),loginModel.getPinNumber()))
 		{
 			return "redirect:/";
 		}
 		
-		loginModel.setMessage("Incorrect Login details.Please enter correct username and password");
+		loginModel.setMessage("Incorrect Login details.Please enter correct profile-number and pin");
 		return "security/login";
 	}
 	

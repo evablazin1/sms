@@ -52,7 +52,7 @@
 				 if (!$.isEmptyObject(dataFromServer)){
 					var listOfSubjects              			    = "";
 					  $.each(dataFromServer,function(index,value){
-					  		var studentUrl						    = "";
+					  		var studentUrl						    = "<c:url value='/teacher/student-subject?schoolID="+schoolID+"&classID="+value.classID+"&subjectID="+value.subjectID+"&teacherID="+teacherID+"'/>";
 					  
 					  		listOfSubjects              		   += "<tr>";
 					  		listOfSubjects    					   += "<td>"+ ++index +"</td><td>"+value.subjectName+"</td><td>"+value.className+"</td>"; 	      
